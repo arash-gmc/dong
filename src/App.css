@@ -8,33 +8,43 @@
     url("./fonts/vazir/Vazir.ttf") format("truetype");
 }
 
-.people-badge{
+.people-card{
   background-color: #CBE4DE !important;
   color: #2C3333 !important;
   padding: 10px !important;
-  margin: 20px !important;
+  margin: 16px !important;
 }
 
-.badge-input{
+.people-card input{
   background: transparent;
   border: none;
   font-size: 20px;
   text-align: center;
-  width: 120px;
+  margin-bottom: 32px;
+  margin-top: 12px;
+  
 }
 
-.badge-plus{
-  color: white;
-  margin-top: 20px;
-  font-size: 32px;
-  margin-bottom: 0;
+.people-card span{
+  margin: 16px !important;
+  
+}
+
+.motherpay-text{
+  margin: 14px;
 }
 
 
 
 
-button{
+
+.add-people-button{
   background-color: #0E8388 !important;
   font-size: 24px !important;
+}
+
+.people-card button{
+  width: 80%;
+  margin: 6px;
 }
 
