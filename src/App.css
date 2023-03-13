@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+@font-face {
+  font-family: "vazir";   /*Can be any text*/
+  src: local("vazir"),
+    url("./fonts/vazir/Vazir.ttf") format("truetype");
+}
+
+
+
+
+button{
+  background-color: #0E8388 !important;
+}
+
