@@ -1,6 +1,6 @@
 import React from 'react';
 
-const siteHeader = () => {
+const SiteHeader = () => {
     return ( 
         <div>
             <h1>دنگ دونگ دینگ</h1>
@@ -9,4 +9,4 @@ const siteHeader = () => {
      );
 }
  
-export default siteHeader;
+export default SiteHeader;

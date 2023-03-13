@@ -8,10 +8,33 @@
     url("./fonts/vazir/Vazir.ttf") format("truetype");
 }
 
+.people-badge{
+  background-color: #CBE4DE !important;
+  color: #2C3333 !important;
+  padding: 10px !important;
+  margin: 20px !important;
+}
+
+.badge-input{
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  text-align: center;
+  width: 120px;
+}
+
+.badge-plus{
+  color: white;
+  margin-top: 20px;
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
 
 
 
 button{
   background-color: #0E8388 !important;
+  font-size: 24px !important;
 }
 
