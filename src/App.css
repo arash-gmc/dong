@@ -11,7 +11,7 @@
 .people-card{
   background-color: #CBE4DE !important;
   color: #2C3333 !important;
-  padding: 10px !important;
+  
   margin: 16px !important;
 }
 
@@ -20,8 +20,7 @@
   border: none;
   font-size: 20px;
   text-align: center;
-  margin-bottom: 32px;
-  margin-top: 12px;
+  margin: 12px 10px 32px 10px;
   
 }
 
@@ -46,5 +45,14 @@
 .people-card button{
   width: 80%;
   margin: 6px;
+}
+
+.my-accordion{
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.accordion-button{
+  font-size: 12px !important;
 }
 

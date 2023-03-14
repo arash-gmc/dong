@@ -6,20 +6,39 @@ import AddPeopleButton from './components/AddPeopleButton';
 
 class App extends Component {
   state = { 
-    peoples:[]
+    peoples:[],
+    pays:[]
    }
    
-  handleChange = ({currentTarget})=>{
+  handlePeopleNameChange = ({currentTarget})=>{
     const peoples = [...this.state.peoples]
     const person = this.state.peoples.find(p=>'i'+p.id===currentTarget.id)
     person.name = currentTarget.value
     this.setState({peoples})
   }
+
+  handlePayNameChange = ({currentTarget})=>{
+    const pays = [...this.state.pays]
+    const pay = pays.find(pay=>'pn'+pay.id===currentTarget.id)
+    pay.name=currentTarget.value
+    this.setState({pays})
+    
+    
+  }
   
   addPay = ({currentTarget})=>{
-    const peoples = [...this.state.peoples]
-    const person = this.state.peoples.find(p=>'s'+p.id===currentTarget.id)
-    console.log(person)
+    const ownerId = currentTarget.id.substring(1)
+    const newPay = {
+      id: Date.now()+'',
+      ownerId,
+      name: '',
+      amount: '',
+      paidFor: [],
+    } 
+    const pays = [...this.state.pays]
+    pays.push(newPay)
+    this.setState({pays})
+    
   }
 
   findMotherPay = ()=>{
@@ -29,8 +48,9 @@ class App extends Component {
   addPeople = ()=>{
     const peoples = [...this.state.peoples]
     peoples.push({
-      id: Date.now(),
+      id: Date.now()+'',
       name: '',
+      pays:[],
       motherPay: !this.findMotherPay()
     })
     this.setState({peoples})
@@ -49,12 +69,19 @@ class App extends Component {
       <div className="App">
         <SiteHeader />
         <AddPeopleButton onClick={this.addPeople} />
-        
-        <PeoplesCards 
-        peoples={this.state.peoples}
-        onChange={this.handleChange}
-        addPay={this.addPay}
-        setMotherPay={this.setMotherPay} />
+        <div className="row">
+          {this.state.peoples.map(person=>
+            <PeoplesCards 
+              person={person}
+              pays = {this.state.pays.filter(pay=>pay.ownerId === person.id)}
+              onPeopleNameChange={this.handlePeopleNameChange}
+              onPayNameChange={this.handlePayNameChange}
+              addPay={this.addPay}
+              setMotherPay={this.setMotherPay} 
+              key={person.id}
+            />
+          )}    
+        </div>  
         
         
     
