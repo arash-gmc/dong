@@ -13,6 +13,7 @@
   color: #2C3333 !important;
   padding-top: 20px;
   margin: 16px !important;
+  height: 220px !important;
 }
 
 .people-card input{
@@ -20,11 +21,16 @@
   border: none;
   font-size: 20px;
   text-align: center;
-  margin: 12px 10px 32px 10px;
+  margin: 12px 10px 6px 10px;
   border: 1px dashed rgb(132, 132, 132);
   width: 74%;
   border-radius: 10px;
   align-self: center;
+  
+}
+
+.people-card input:focus{
+  box-shadow: none;
   
 }
 
@@ -58,6 +64,7 @@
 
 .accordion-body input{
   font-size: 16px !important;
+  margin-bottom: 12px !important;
 }
 
 .on , .off  {  
@@ -86,4 +93,36 @@
   font-size: 18px;
   margin-bottom: 20px !important;
 }
+
+.accordion-button{
+  padding: 8px !important;
+  height: 40px;
+}
+
+
+.my-accordion-button::after{
+  content: none !important;
+}
+
+.accordion-button span{
+  margin: 2px 8px 0 0 !important;
+}
+
+.validation-error{
+  color: rgb(239, 44, 44);
+  font-size: 11px;
+}
+
+.amount-input{
+  width: 40% !important;
+  margin-left: 4px !important;
+  margin-right: 4px !important;
+}
+
+.hezar{
+  font-size: 14px;
+  margin: 0 !important;
+  padding-right: 0;
+}
+
 

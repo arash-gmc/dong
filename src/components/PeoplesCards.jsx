@@ -4,14 +4,22 @@ import PayCard from "./payCard";
 class PeoplesCards extends Component {
     state = { 
         peoples : [],
-        pays:[]
+        pays:[],
+        errs:{}
      }
+
+    errMsg = {
+        personName : '',
+        payName: '',
+        payAmount: ''
+    } 
 
     handlePeopleNameChange = ({currentTarget})=>{
         const peoples = [...this.state.peoples]
-        const person = this.state.peoples.find(p=>'i'+p.id===currentTarget.id)
+        const person = this.state.peoples.find(p=>'pr:'+p.id===currentTarget.id)
         person.name = currentTarget.value
         this.setState({peoples})
+        this.validate(currentTarget.id)
     } 
 
     findMotherPay = ()=>{
@@ -20,10 +28,11 @@ class PeoplesCards extends Component {
 
     addPeople = ()=>{
         const peoples = [...this.state.peoples]
+        const isValidate = peoples.every(p=> this.validate('pr:'+p.id))
+        if (!isValidate) return
         peoples.push({
             id: Date.now()+'',
             name: '',
-            pays:[],
             motherPay: !this.findMotherPay()
         })
         this.setState({peoples})
@@ -37,17 +46,29 @@ class PeoplesCards extends Component {
         this.setState({peoples})
       }
 
-      handlePayChange = ({currentTarget})=>{
+      handlePayNameChange = ({currentTarget})=>{
         const pays = [...this.state.pays]
-        const pay = pays.find(pay=>pay.id===currentTarget.id.substring(2))
-        pay[currentTarget.name]=currentTarget.value
+        const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
+        pay.name=currentTarget.value
         this.setState({pays})
+        this.validate(currentTarget.id)
+      }
+
+      handlePayAmountChange = ({currentTarget})=>{
+        if(!'0123456789'.includes(currentTarget.value.slice(-1)))
+            return ;
+        const pays = [...this.state.pays]
+        const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
+        pay.amount=currentTarget.value
+        this.setState({pays})
+        this.validate(currentTarget.id)
         
         
       }
       
       addPay = ({currentTarget})=>{
-        const ownerId = currentTarget.id.substring(1)
+        if(!this.validate(currentTarget.id)) return ;
+        const ownerId = currentTarget.id.substring(3)
         const newPay = {
           id: Date.now()+'',
           ownerId,
@@ -82,28 +103,70 @@ class PeoplesCards extends Component {
         this.setState({pays})
       }
 
+      validate = (input)=>{
+        const splited = input.split(':')
+        const typeChar = splited[0]
+        const id = splited[1]
+        const errs = {...this.state.errs}
+        errs[input] = ''
+        switch (typeChar) {
+            case 'pr' :
+                const person = this.state.peoples.find(p=>p.id === id)
+                if (person.name === ''){
+                    errs[input] = 'اسم باید وارد بشه' 
+                    this.setState({errs})
+                    return false
+                }
+                this.setState({errs})
+                return true
+                
+            case 'pn' :
+                const pay1 = this.state.pays.find(p=>p.id === id)
+                if (pay1.name === ''){
+                    errs[input] = 'برای هزینت یه اسم بذار' 
+                    this.setState({errs})
+                    return false
+                }
+                this.setState({errs})
+                return true
+            case 'pa' :
+                const pay2 = this.state.pays.find(p=>p.id === id)
+                if (pay2.amount === ''){
+                    errs[input] = 'پول خرج شده رو بنویس' 
+                    this.setState({errs})
+                    return false
+                }
+                this.setState({errs})
+                return true
+            
+        }
+      }
 
     render() { 
         return (
             <div>
-                <button 
-                    className='btn btn-dark add-people-button'
+                {this.state.peoples.length===0 &&<button 
+                    className='btn btn-dark add-people-button mt-3'
                     onClick={this.addPeople}  
-                    >اضافه کردن افراد
-                </button>
-                <div className="row"> 
+                    >با اضافه کردن دوستات شروع کن 
+                </button>}
+                <div className="row d-flex flex-row"> 
                     {this.state.peoples.map(person=> 
                         <div className="col-sm-3 mb-3 mb-sm-0" key={person.id}>                        
                             <div className="card people-card" >
-                                <input 
-                                    type='text' 
-                                    className='badge-input'
-                                    value={person.name}
-                                    id = {'i'+person.id}
-                                    onChange={this.handlePeopleNameChange}
-                                    placeholder='نام'
-                                    autoFocus >
-                                </input>
+                                <div className='mb-3'>
+                                    <input 
+                                        type='text' 
+                                        className={this.state.errs['pr:'+person.id] ? 'input-badge border-danger' : 'input-badge'}
+                                        value={person.name}
+                                        name='personName'
+                                        id = {'pr:'+person.id}
+                                        onChange={this.handlePeopleNameChange}
+                                        placeholder='اسم'
+                                        autoFocus >
+                                    </input>
+                                    <div className='validation-error'>{this.state.errs['pr:'+person.id]}</div>
+                                </div>
                                 {person.motherPay && 
                                     <div className="motherpay-text">
                                         <span className="text-success">مادرخرج</span>
@@ -115,7 +178,7 @@ class PeoplesCards extends Component {
                                         className="btn btn-success" 
                                         id={'m'+person.id}
                                         onClick={this.setMotherPay}
-                                        style={{'font-size':'14px'}}>
+                                        style={{'fontSize':'14px'}}>
                                             تعیین به عنوان مادرخرج
                                     </button>
                                 </div>
@@ -124,7 +187,7 @@ class PeoplesCards extends Component {
                                 <div>
                                     <button 
                                         className="btn btn-primary peoples-button" 
-                                        onClick={this.addPay} id={'s'+person.id}>
+                                        onClick={this.addPay} id={'pr:'+person.id}>
                                             افزودن هزینه کرد
                                     </button>
                                 </div>                               
@@ -132,16 +195,25 @@ class PeoplesCards extends Component {
                                 <PayCard 
                                     personId={person.id} 
                                     pays={this.state.pays} 
-                                    onPayPropertyChange={this.handlePayChange} 
+                                    onPayNameChange={this.handlePayNameChange}
+                                    onPayAmountChange={this.handlePayAmountChange}
                                     peoples = {this.state.peoples}
                                     togglePaidFor={this.togglePaidFor} 
                                     fullPaidFor = {this.fullPaidFor}
+                                    errs = {this.state.errs}
                                 />
                                 
                                     
                             </div>
                         </div>        
                     )}
+                    {this.state.peoples.length>0 && <div className='col-sm-3 mb-3 mb-sm-0'>
+                        <button className='btn btn-dark add-people-button mt-5 d-block m-auto w-50'
+                            onClick={this.addPeople}  
+                            >+ یه نفر دیگه
+                        </button>
+                        {this.state.peoples.length>1 && <button className='btn btn-dark add-people-button mt-3 d-block m-auto w-50'>دیدن نتایج</button>}
+                    </div>}
                     
                 </div>
             </div> 
