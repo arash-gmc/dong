@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PayCard from "./payCard";
+import Result from "./result"
 
 class PeoplesCards extends Component {
     state = { 
         peoples : [],
         pays:[],
-        errs:{}
+        errs:{},
+        result: []
      }
 
     errMsg = {
@@ -45,6 +47,8 @@ class PeoplesCards extends Component {
         person.motherPay=true
         this.setState({peoples})
       }
+
+    
 
       handlePayNameChange = ({currentTarget})=>{
         const pays = [...this.state.pays]
@@ -142,6 +146,30 @@ class PeoplesCards extends Component {
         }
       }
 
+    claculate = ()=>{
+        let result = []
+        this.state.peoples.map(person=>{
+            let paid = 0
+            let paidForHim = 0
+            this.state.pays.map(pay=>{
+                const money = Number(pay.amount)
+                if (pay.ownerId===person.id)
+                    paid += money
+                if (pay.paidFor.includes(person.id))
+                    paidForHim += (money/pay.paidFor.length)         
+            })
+            result.push({
+                id : person.id,
+                name: person.name,
+                dong: paidForHim-paid
+            })
+        })
+        console.log(result)
+        this.setState({result})
+        
+        
+    }  
+
     render() { 
         return (
             <div>
@@ -207,12 +235,21 @@ class PeoplesCards extends Component {
                             </div>
                         </div>        
                     )}
+                    
                     {this.state.peoples.length>0 && <div className='col-sm-3 mb-3 mb-sm-0'>
                         <button className='btn btn-dark add-people-button mt-5 d-block m-auto w-50'
                             onClick={this.addPeople}  
                             >+ یه نفر دیگه
                         </button>
-                        {this.state.peoples.length>1 && <button className='btn btn-dark add-people-button mt-3 d-block m-auto w-50'>دیدن نتایج</button>}
+                        {this.state.peoples.length>1 && <button 
+                            className='btn btn-dark add-people-button mt-3 d-block m-auto w-50'
+                            onClick={this.claculate}    
+                                >دیدن نتایج
+                            </button>}
+                    </div>}
+
+                    {this.state.peoples.length>1 && this.state.pays.length>0 && <div className='col-12 row mb-3 mb-sm-0'>
+                      <Result result={this.state.result} motherPay={this.state.peoples.find(p=>p.motherPay)}/> 
                     </div>}
                     
                 </div>
