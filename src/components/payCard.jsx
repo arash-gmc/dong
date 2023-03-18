@@ -9,9 +9,9 @@ class PayCard extends Component {
         const {pays,onPayNameChange,onPayAmountChange,personId,peoples,togglePaidFor,fullPaidFor,errs,togglePayDisplay} = this.props
         const personPays = pays.filter(p=>p.ownerId===personId)
         return (
-            <div className="mx-3">
+            <div className="mx-1">
                 {personPays.map(pay=> 
-                    <div className='m-1' key={pay.id}>
+                    <div key={pay.id} className='my-1'>
                         <div className='window-header p-1 text-right' onClick={()=>togglePayDisplay(pay.id)}>
                             <span>{pay.name}</span>
                         </div>
@@ -28,7 +28,7 @@ class PayCard extends Component {
                                             onChange={onPayNameChange}
                                             placeholder='نام هزینه'
                                             maxLength='46'
-                                            className='w-100 mx-auto'
+                                            className='w-100'
                                             autoFocus >
                                         </input>
                                     </div>
@@ -41,7 +41,7 @@ class PayCard extends Component {
                                             id = {'pa:'+pay.id}
                                             name = 'payAmount'
                                             onChange={onPayAmountChange}
-                                            placeholder='مقدار هزینه'
+                                            placeholder='پول'
                                             className='amount-input'
                                             maxLength='16'
                                             >

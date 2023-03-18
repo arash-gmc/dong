@@ -59,11 +59,33 @@ class PeoplesCards extends Component {
       }
 
       handlePayAmountChange = ({currentTarget})=>{
-        if(!'0123456789'.includes(currentTarget.value.slice(-1)))
-            return ;
-        const pays = [...this.state.pays]
-        const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
-        pay.amount=currentTarget.value
+         
+         const pays = [...this.state.pays]
+         const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
+         if (currentTarget.value.length>pay.amount.length){
+            const persianNumbers = '۰۱۲۳۴۵۶۷۸۹';
+            const arabicNumbers = '٠١٢٣٤٥٦٧٨٩'
+            const englishNumbers = '0123456789';
+            const lastChar = currentTarget.value.slice(-1)
+
+            if(persianNumbers.includes(lastChar) ){
+                    let index = persianNumbers.indexOf(lastChar)
+                    currentTarget.value = currentTarget.value.slice(0,-1) + englishNumbers[index]
+            }
+
+            if(arabicNumbers.includes(lastChar) ){
+                let index = arabicNumbers.indexOf(lastChar)
+                currentTarget.value = currentTarget.value.slice(0,-1) + englishNumbers[index]
+            }
+
+            if(!Number(currentTarget.value) && currentTarget.value!='0')
+                return
+
+            if (currentTarget.value=='0'){
+                return
+            }    
+         }
+        pay.amount = currentTarget.value
         this.setState({pays})
         this.validate(currentTarget.id)
         
@@ -129,6 +151,11 @@ class PeoplesCards extends Component {
                     this.setState({errs})
                     return false
                 }
+                if (this.state.peoples.filter(p=>p.name==person.name).length>1){
+                    errs[input] = 'این اسم رو دو بار وارد کردی' 
+                    this.setState({errs})
+                    return false
+                }
                 this.setState({errs})
                 return true
                 
@@ -143,7 +170,7 @@ class PeoplesCards extends Component {
                 return true
             case 'pa' :
                 const pay2 = this.state.pays.find(p=>p.id === id)
-                if (pay2.amount === ''){
+                if (pay2.amount === '' || pay2.amount === 0){
                     errs[input] = 'پول خرج شده رو بنویس' 
                     this.setState({errs})
                     return false
@@ -175,91 +202,113 @@ class PeoplesCards extends Component {
         this.setState({result})
         
         
-    }  
+    } 
+    
+    resetAll = ()=>{
+        this.setState({
+            peoples : [],
+            pays:[],
+            errs:{},
+            result: []})
+    }
 
     render() { 
         return (
             <div>
-                {this.state.peoples.length===0 &&<button 
-                    className='btn btn-dark add-people-button mt-3'
-                    onClick={this.addPeople}  
-                    >با اضافه کردن دوستات شروع کن 
-                </button>}
-                <div className="row d-flex flex-row"> 
-                    {this.state.peoples.map(person=> 
-                        <div className="col-sm-3 mb-0" key={person.id}>                        
-                            <div className="card people-card" >
-                                <div className='mb-3'>
-                                    <input 
-                                        type='text' 
-                                        className={this.state.errs['pr:'+person.id] ? 'input-badge border-danger' : 'input-badge'}
-                                        value={person.name}
-                                        name='personName'
-                                        id = {'pr:'+person.id}
-                                        onChange={this.handlePeopleNameChange}
-                                        maxLength='32'
-                                        placeholder='اسم'
-                                        autoFocus >
-                                    </input>
-                                    <div className='validation-error'>{this.state.errs['pr:'+person.id]}</div>
-                                </div>
-                                {person.motherPay && 
-                                    <div className="motherpay-text">
-                                        <span className="text-success">مادرخرج</span>
-                                    </div> 
-                                }
-                                {person.motherPay ||
-                                <div>
-                                    <button 
-                                        className="btn btn-success" 
-                                        id={'m'+person.id}
-                                        onClick={this.setMotherPay}
-                                        style={{'fontSize':'14px'}}>
-                                            تعیین به عنوان مادرخرج
-                                    </button>
-                                </div>
-                                }
-                                
-                                <div>
-                                    <button 
-                                        className="btn btn-primary peoples-button" 
-                                        onClick={this.addPay} id={'pr:'+person.id}>
-                                            افزودن هزینه کرد
-                                    </button>
-                                </div>                                       
-                            </div>
-                                <PayCard 
-                                    personId={person.id} 
-                                    pays={this.state.pays} 
-                                    onPayNameChange={this.handlePayNameChange}
-                                    onPayAmountChange={this.handlePayAmountChange}
-                                    peoples = {this.state.peoples}
-                                    togglePaidFor={this.togglePaidFor} 
-                                    fullPaidFor = {this.fullPaidFor}
-                                    errs = {this.state.errs}
-                                    togglePayDisplay = {this.togglePayDisplay}
-                                />
-                        </div>        
-                    )}
-                    
-                    {this.state.peoples.length>0 && <div className='col-sm-3 mb-3 mb-sm-0'>
-                        <button className='btn btn-dark add-people-button mt-5 d-block m-auto w-50'
+                <div>
+                    {this.state.peoples.length===0 &&
+                    <div className='col-sm-3 col-12 m-auto pt-4'>
+                        <button 
+                            className='btn btn-lg btn-dark add-people-button mt-3'
                             onClick={this.addPeople}  
-                            >+ یه نفر دیگه
+                            >با اضافه کردن دوستات شروع کن 
                         </button>
-                        {this.state.peoples.length>1 && <button 
-                            className='btn btn-dark add-people-button mt-3 d-block m-auto w-50'
-                            onClick={this.claculate}    
-                                >دیدن نتایج
-                            </button>}
                     </div>}
-
-                    {this.state.peoples.length>1 && this.state.pays.length>0 && <div className='col-12 row mb-3 mb-sm-0'>
-                      <Result result={this.state.result} motherPay={this.state.peoples.find(p=>p.motherPay)}/> 
-                    </div>}
-                    
                 </div>
-            </div> 
+                <div className='row'>    
+                    {this.state.peoples.length>0 && 
+                        <div className='col-sm-1 col-3 pe-0 pe-sm-2 position-fixed fixed-right'>
+                            <button className='btn btn-dark add-people-button mt-2 d-block w-100'
+                                onClick={this.addPeople}  
+                                >یه نفر دیگه
+                            </button>
+                            <button className='btn btn-dark add-people-button mt-2 d-block w-100'
+                                onClick={this.resetAll} 
+                                >ریست کردن
+                            </button>
+                            <button 
+                                className='btn btn-dark add-people-button mt-2 d-block m-auto w-100'
+                                onClick={this.claculate}    
+                                    >دیدن نتیجه
+                                </button>
+                        </div>}
+                    <div className='col-sm-1 col-3'></div>    
+                    <div className="row col-sm-11 col-9 px-sm-2 p-0"> 
+                        {this.state.peoples.map(person=> 
+                            <div className="col-sm-3 mb-3" key={person.id}>                        
+                                <div className="card people-card" >
+                                    <div className='mb-3'>
+                                        <input 
+                                            type='text' 
+                                            className={this.state.errs['pr:'+person.id] ? 'w-75 border-danger' : 'w-75'}
+                                            value={person.name}
+                                            name='personName'
+                                            id = {'pr:'+person.id}
+                                            onChange={this.handlePeopleNameChange}
+                                            maxLength='32'
+                                            placeholder='اسم'
+                                            autoFocus >
+                                        </input>
+                                        <div className='validation-error'>{this.state.errs['pr:'+person.id]}</div>
+                                    </div>
+                                    {person.motherPay && 
+                                        <div className="motherpay-text">
+                                            <span className="text-success">مادرخرج</span>
+                                        </div> 
+                                    }
+                                    {person.motherPay ||
+                                    <div>
+                                        <button 
+                                            className="btn btn-success" 
+                                            id={'m'+person.id}
+                                            onClick={this.setMotherPay}
+                                            style={{'fontSize':'14px'}}>
+                                                تعیین به عنوان مادرخرج
+                                        </button>
+                                    </div>
+                                    }
+                                    
+                                    <div>
+                                        <button 
+                                            className="btn btn-primary peoples-button" 
+                                            onClick={this.addPay} id={'pr:'+person.id}>
+                                                افزودن هزینه کرد
+                                        </button>
+                                    </div>                                       
+                                </div>
+                                    <PayCard 
+                                        personId={person.id} 
+                                        pays={this.state.pays} 
+                                        onPayNameChange={this.handlePayNameChange}
+                                        onPayAmountChange={this.handlePayAmountChange}
+                                        peoples = {this.state.peoples}
+                                        togglePaidFor={this.togglePaidFor} 
+                                        fullPaidFor = {this.fullPaidFor}
+                                        errs = {this.state.errs}
+                                        togglePayDisplay = {this.togglePayDisplay}
+                                    />
+                            </div>        
+                        )}
+                        
+                        
+
+                        {this.state.peoples.length>1 && this.state.pays.length>0 && <div className='col-12 row mb-3 mb-sm-0'>
+                        <Result result={this.state.result} motherPay={this.state.peoples.find(p=>p.motherPay)}/> 
+                        </div>}
+                        
+                    </div>
+                </div> 
+            </div>
         );
     }
 }

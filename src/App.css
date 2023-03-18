@@ -16,6 +16,7 @@
   font-weight: bold;  
 }
 
+
 @font-face {
   font-family: "vazir";
   src: local("vazir"),
@@ -27,17 +28,14 @@
   background-color: #CBE4DE !important;
   color: #2C3333 !important;
   padding-top: 20px;
-  margin: 16px !important;
   height: 220px !important;
   margin-bottom: 0 !important;
 }
 
 .people-card input{
   background: transparent;
-  border: none;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
-  margin: 12px 10px 6px 10px;
   border: 1px dashed rgb(132, 132, 132);
   border-radius: 10px;
   align-self: center;
@@ -60,7 +58,6 @@
 
 .add-people-button{
   background-color: #0E8388 !important;
-  font-size: 24px !important;
 }
 
 .people-card button{

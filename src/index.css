@@ -4,7 +4,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #2E4F4F !important;
   color: antiquewhite !important;
-  font-family: vazir !important;
+  font-family: vazir,Arial, Helvetica, sans-serif !important;
   
 }
 
