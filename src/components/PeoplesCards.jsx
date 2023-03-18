@@ -78,6 +78,7 @@ class PeoplesCards extends Component {
           ownerId,
           name: '',
           amount: '',
+          show:true,
           paidFor: [],
         } 
         const pays = [...this.state.pays]
@@ -104,6 +105,13 @@ class PeoplesCards extends Component {
         const pay = pays.find(pay=>pay.id===payId)
         pay.paidFor = []
         this.state.peoples.map(person=>pay.paidFor.push(person.id))
+        this.setState({pays})
+      }
+
+      togglePayDisplay = (payId)=>{
+        const pays = this.state.pays
+        const pay = pays.find(pay=>pay.id==payId)
+        pay.show = !pay.show
         this.setState({pays})
       }
 
@@ -161,10 +169,9 @@ class PeoplesCards extends Component {
             result.push({
                 id : person.id,
                 name: person.name,
-                dong: paidForHim-paid
+                dong: Math.ceil(paidForHim-paid)
             })
         })
-        console.log(result)
         this.setState({result})
         
         
@@ -180,7 +187,7 @@ class PeoplesCards extends Component {
                 </button>}
                 <div className="row d-flex flex-row"> 
                     {this.state.peoples.map(person=> 
-                        <div className="col-sm-3 mb-3 mb-sm-0" key={person.id}>                        
+                        <div className="col-sm-3 mb-0" key={person.id}>                        
                             <div className="card people-card" >
                                 <div className='mb-3'>
                                     <input 
@@ -190,6 +197,7 @@ class PeoplesCards extends Component {
                                         name='personName'
                                         id = {'pr:'+person.id}
                                         onChange={this.handlePeopleNameChange}
+                                        maxLength='32'
                                         placeholder='اسم'
                                         autoFocus >
                                     </input>
@@ -218,8 +226,8 @@ class PeoplesCards extends Component {
                                         onClick={this.addPay} id={'pr:'+person.id}>
                                             افزودن هزینه کرد
                                     </button>
-                                </div>                               
-                                                   
+                                </div>                                       
+                            </div>
                                 <PayCard 
                                     personId={person.id} 
                                     pays={this.state.pays} 
@@ -229,10 +237,8 @@ class PeoplesCards extends Component {
                                     togglePaidFor={this.togglePaidFor} 
                                     fullPaidFor = {this.fullPaidFor}
                                     errs = {this.state.errs}
+                                    togglePayDisplay = {this.togglePayDisplay}
                                 />
-                                
-                                    
-                            </div>
                         </div>        
                     )}
                     

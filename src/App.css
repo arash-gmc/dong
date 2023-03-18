@@ -3,9 +3,24 @@
 }
 
 @font-face {
-  font-family: "vazir";   /*Can be any text*/
+  font-family: "vazir";
   src: local("vazir"),
     url("./fonts/vazir/Vazir.ttf") format("truetype");
+  font-weight: normal;  
+}
+
+@font-face {
+  font-family: "vazir";
+  src: local("vazir"),
+    url("./fonts/vazir/Vazir-Bold.ttf") format("truetype");
+  font-weight: bold;  
+}
+
+@font-face {
+  font-family: "vazir";
+  src: local("vazir"),
+    url("./fonts/vazir/Vazir-FD-WOL.ttf") format("truetype");
+   
 }
 
 .people-card{
@@ -14,6 +29,7 @@
   padding-top: 20px;
   margin: 16px !important;
   height: 220px !important;
+  margin-bottom: 0 !important;
 }
 
 .people-card input{
@@ -23,16 +39,11 @@
   text-align: center;
   margin: 12px 10px 6px 10px;
   border: 1px dashed rgb(132, 132, 132);
-  width: 74%;
   border-radius: 10px;
   align-self: center;
   
 }
 
-.people-card input:focus{
-  box-shadow: none;
-  
-}
 
 .people-card span{
   margin: 16px !important;
@@ -58,71 +69,11 @@
 }
 
 
-.accordion-button{
-  font-size: 12px !important;
-}
-
-.accordion-body input{
-  font-size: 16px !important;
-  margin-bottom: 12px !important;
-}
-
-.on , .off  {  
-  border-radius: 15px;
-  height: 40px;
-  cursor: pointer;
-  margin: auto;
-  margin-bottom: 20px;
-  font-size: 16px;
-  padding-top: 5px;
-  
-}
-
-.on{
-  border: 4px solid lightseagreen;
-}
-
-.off{
-  border: 1px solid rgb(104, 104, 104);
-  color: #6b6b6b;
-}
-
-
-
-.accordion-body .texts{
-  font-size: 18px;
-  margin-bottom: 20px !important;
-}
-
-.accordion-button{
-  padding: 8px !important;
-  height: 40px;
-}
-
-
-.my-accordion-button::after{
-  content: none !important;
-}
-
-.accordion-button span{
-  margin: 2px 8px 0 0 !important;
-}
-
 .validation-error{
   color: rgb(239, 44, 44);
-  font-size: 11px;
-}
-
-.amount-input{
-  width: 40% !important;
-  margin-left: 4px !important;
-  margin-right: 4px !important;
-}
-
-.hezar{
-  font-size: 14px;
-  margin: 0 !important;
-  padding-right: 0;
+  font-size: 10px;
+  height: 8px;
+  margin-bottom: 12px;
 }
 
 .result-card{
