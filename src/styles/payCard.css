@@ -77,3 +77,19 @@ padding-top: 8px;
     margin: 0 !important;
     padding-right: 0;
 }
+
+.delete-cross{
+    top:6px;
+    left: 6px;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    border: 2px solid azure;
+    padding: 1px;
+    transition: all 0.4s;
+}
+
+.delete-cross:hover{
+    color: rgb(227, 65, 65);
+    border-color:  rgb(227, 65, 65);
+}

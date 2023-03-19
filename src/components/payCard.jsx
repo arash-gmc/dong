@@ -6,14 +6,16 @@ class PayCard extends Component {
      
      
     render() { 
-        const {pays,onPayNameChange,onPayAmountChange,personId,peoples,togglePaidFor,fullPaidFor,errs,togglePayDisplay} = this.props
+        const {pays,onPayNameChange,onPayAmountChange,personId,peoples,togglePaidFor,fullPaidFor,errs,togglePayDisplay,deletePay} = this.props
         const personPays = pays.filter(p=>p.ownerId===personId)
         return (
             <div className="mx-1">
                 {personPays.map(pay=> 
                     <div key={pay.id} className='my-1'>
-                        <div className='window-header p-1 text-right border-ganger' onClick={()=>togglePayDisplay(pay.id)}>
-                            <span className={errs['pn:'+pay.id]||errs['pa:'+pay.id]?'text-danger':''}>{pay.name}</span>
+                        <div className='window-header p-1 text-right border-ganger position-relative' onClick={()=>togglePayDisplay(pay.id)}>
+                            <span className={errs['pn:'+pay.id]||errs['pa:'+pay.id]||errs['pf:'+pay.id]?'text-danger':''}>{pay.name}</span>
+                            <span className='position-absolute delete-cross rounded-circle' onClick={()=>deletePay(pay.id)}>&#10005;</span>
+                            <span className='text-danger'>{errs['pn:'+pay.id] ? '!!!':''}</span>
                         </div>
                         <div className={pay.show ? 'mx-2 window-body':'zero-height mx-2 window-body'}>
                             <div className='p-3'>
@@ -41,7 +43,7 @@ class PayCard extends Component {
                                             id = {'pa:'+pay.id}
                                             name = 'payAmount'
                                             onChange={onPayAmountChange}
-                                            placeholder='پول'
+                                            placeholder='مقدار'
                                             className='amount-input'
                                             maxLength='16'
                                             >
@@ -65,10 +67,11 @@ class PayCard extends Component {
                                         </div>
                                     )}
                                     <div className='col-12'>
-                                        <div className='on' onClick = {()=>fullPaidFor(pay.id)}>
+                                        <div className='on mb-1' onClick = {()=>fullPaidFor(pay.id)}>
                                             انتخاب همه
                                         </div>
-                                    </div>                                
+                                    </div> 
+                                    <div className='validation-error'>{errs['pf:'+pay.id]}</div>                               
                                 </div>
 
                                 <div>
