@@ -12,8 +12,8 @@ class PayCard extends Component {
             <div className="mx-1">
                 {personPays.map(pay=> 
                     <div key={pay.id} className='my-1'>
-                        <div className='window-header p-1 text-right' onClick={()=>togglePayDisplay(pay.id)}>
-                            <span>{pay.name}</span>
+                        <div className='window-header p-1 text-right border-ganger' onClick={()=>togglePayDisplay(pay.id)}>
+                            <span className={errs['pn:'+pay.id]||errs['pa:'+pay.id]?'text-danger':''}>{pay.name}</span>
                         </div>
                         <div className={pay.show ? 'mx-2 window-body':'zero-height mx-2 window-body'}>
                             <div className='p-3'>

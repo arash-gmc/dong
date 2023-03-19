@@ -1,0 +1,17 @@
+.result-card{
+    color: #2C3333 !important;
+    background-color: #CBE4DE !important;
+  }
+  
+  .result-card p{
+    text-align: right;
+    margin-right: 16px;
+    font-size: 14px;
+  }
+
+.result-header{
+    background-color: #2C3333;
+    color: azure;
+    border-radius: 6px;
+}
+

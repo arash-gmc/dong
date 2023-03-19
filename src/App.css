@@ -73,16 +73,10 @@
   margin-bottom: 12px;
 }
 
-.result-card{
-  color: #2C3333 !important;
-  background-color: #CBE4DE !important;
+a{
+  color: azure !important;
+  text-decoration: none !important;
 }
-
-.result-card p{
-  text-align: right;
-  margin-right: 16px;
-}
-
 
 
 /*
