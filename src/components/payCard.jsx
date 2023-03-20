@@ -67,7 +67,7 @@ class PayCard extends Component {
                                         </div>
                                     )}
                                     <div className='col-12'>
-                                        <div className='on mb-1' onClick = {()=>fullPaidFor(pay.id)}>
+                                        <div className='on mb-1' onClick = {()=>togglePaidFor('all',pay.id)}>
                                             انتخاب همه
                                         </div>
                                     </div> 

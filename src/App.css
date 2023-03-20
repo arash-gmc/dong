@@ -88,6 +88,17 @@ a{
   text-decoration: none !important;
 }
 
+.frist-pay-warning{
+  bottom: -32px;
+  right: -40px;
+  border: 1px solid grey ;
+  font-size: 11px;
+  width: 150px;
+  background-color: rgba(223, 223, 80, 0.79);
+  border-radius: 6px;
+  z-index: 10;
+}
+
 
 /*
  2C3333
