@@ -87,8 +87,7 @@ padding-top: 8px;
     border: 2px solid azure;
     padding: 1px;
     transition: all 0.4s;
-    margin: 1px;
-   
+   cursor: pointer;
 }
 
 .delete-cross:hover{

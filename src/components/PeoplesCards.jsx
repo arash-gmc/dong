@@ -293,8 +293,12 @@ class PeoplesCards extends Component {
                                     <a href='./#results'>دیدن نتیجه</a>
                             </button>
                             <button className='btn btn-dark add-people-button mt-2 d-block w-100'
+                                onClick={this.saveData} 
+                                >ذخیره
+                            </button>
+                            <button className='btn btn-dark add-people-button mt-2 d-block w-100'
                                 onClick={this.resetAll} 
-                                >ریست کردن
+                                >ریست
                             </button>
                         </div>}
                     <div className='col-3 col-md-2 col-lg-1'></div>    

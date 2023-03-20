@@ -11,12 +11,12 @@ class PayCard extends Component {
         return (
             <div className="mx-1">
                 {personPays.map(pay=> 
-                    <div key={pay.id} className='my-1'>
-                        <div className='window-header p-1 text-right border-ganger position-relative' >
+                    <div key={pay.id} className='my-1 position-relative'>
+                        <div className='window-header p-1 text-right border-ganger' onClick={()=>togglePayDisplay(pay.id)}>
                             <span className={errs['pn:'+pay.id]||errs['pa:'+pay.id]||errs['pf:'+pay.id]?'text-danger':''}>{pay.name}</span>
-                            <span className='position-absolute delete-cross rounded-circle' onClick={()=>deletePay(pay.id)}>&#10005;</span>
                             <span className='text-danger'>{errs['pn:'+pay.id] ? '!!!':''}</span>
                         </div>
+                        <span className='position-absolute delete-cross rounded-circle' onClick={()=>deletePay(pay.id)}>&#10005;</span>
                         <div className={pay.show ? 'mx-2 window-body':'zero-height mx-2 window-body'}>
                             <div className='p-3'>
                                 <div className='mb-3'>
