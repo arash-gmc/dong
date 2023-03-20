@@ -24,81 +24,10 @@
    
 }
 
-.people-card{
-  background-color: #CBE4DE !important;
-  color: #2C3333 !important;
-  padding-top: 20px;
-  height: 220px !important;
-  margin-bottom: 0 !important;
-}
-
-.people-card input{
-  background: transparent;
-  font-size: 18px;
-  text-align: center;
-  border: 1px dashed rgb(132, 132, 132);
-  border-radius: 10px;
-  align-self: center;
-  
-}
- .motherpay-text {
-  margin-top: 10px !important;
-  margin-bottom: 13px;
- }
-
-.delete-icon{
-  left: 6px ;
-  top:8px ;
-  cursor: pointer;
-  font-size: 16px ;
-  border: 2px solid grey;
-  width: 24px;
-  height: 24px;
-  padding: auto;
-  color: gray;
-  transition: all 0.4s;
-}
-
-.delete-icon:hover{
-  color: rgb(227, 65, 65);
-  border-color:  rgb(227, 65, 65);
-}
-
-
-
-.add-people-button{
-  background-color: #0E8388 !important;
-}
-
-.people-card button{
-  width: 80%;
-  margin: 6px;
-}
-
-
-.validation-error{
-  color: rgb(239, 44, 44);
-  font-size: 10px;
-  height: 8px;
-  margin-bottom: 12px;
-}
-
 a{
   color: azure !important;
   text-decoration: none !important;
 }
-
-.frist-pay-warning{
-  bottom: -32px;
-  right: -40px;
-  border: 1px solid grey ;
-  font-size: 11px;
-  width: 150px;
-  background-color: rgba(223, 223, 80, 0.79);
-  border-radius: 6px;
-  z-index: 10;
-}
-
 
 /*
  2C3333

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PayCard from "./payCard";
 import Result from "./result"
+import '../styles/peoples.css'
 
 class PeoplesCards extends Component {
     state = { 
@@ -32,7 +33,7 @@ class PeoplesCards extends Component {
     }
 
     handlePeopleNameChange = ({currentTarget})=>{
-        this.vanishResult() 
+        this.setState({showResult:false})
         const peoples = [...this.state.peoples]
         const person = this.state.peoples.find(p=>'pr:'+p.id===currentTarget.id)
         
@@ -48,49 +49,8 @@ class PeoplesCards extends Component {
         this.validate(currentTarget.id)
     } 
 
-   
-    addPeople = ()=>{
-        this.vanishResult() 
-        const peoples = [...this.state.peoples]
-        const isValidate = peoples.every(p=> this.validate('pr:'+p.id))
-        if (!isValidate) return
-        const findMotherPay = ()=>{
-            return this.state.peoples.some(p=>p.motherPay)
-        }
-        peoples.push({
-            id: Date.now()+'',
-            name: '',
-            motherPay: !findMotherPay()
-        })
-        this.setState({peoples})
-    }
-
-    deletePeople = (personId)=>{
-        this.vanishResult()
-        let peoples = [...this.state.peoples]
-        const deletedPerson = peoples.find(person=>person.id===personId)
-        if(deletedPerson.motherPay){
-            peoples[0].motherPay = true
-        }
-        peoples = peoples.filter(person=>person.id!==personId)
-        this.setState({peoples})
-        
-        let pays = [...this.state.pays]
-        pays = pays.filter(pay=>pay.ownerId!==personId)
-        this.setState({pays})
-    }
-
-    setMotherPay = ({currentTarget})=>{
-        this.vanishResult() 
-        const peoples = [...this.state.peoples]
-        const person = peoples.find(p=>'m'+p.id===currentTarget.id)
-        peoples.map(p=>p.motherPay=false)
-        person.motherPay=true
-        this.setState({peoples})
-    }
-
-      handlePayNameChange = ({currentTarget})=>{
-        this.vanishResult() 
+    handlePayNameChange = ({currentTarget})=>{
+        this.setState({showResult:false})
         const pays = [...this.state.pays]
         const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
         pay.name=currentTarget.value
@@ -98,11 +58,11 @@ class PeoplesCards extends Component {
         this.validate(currentTarget.id)
     }
 
-      handlePayAmountChange = ({currentTarget})=>{
-         this.vanishResult() 
-         const pays = [...this.state.pays]
-         const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
-         if (currentTarget.value.length>pay.amount.length){
+    handlePayAmountChange = ({currentTarget})=>{
+        this.setState({showResult:false})
+        const pays = [...this.state.pays]
+        const pay = pays.find(pay=>pay.id===currentTarget.id.substring(3))
+        if (currentTarget.value.length>pay.amount.length){
             const persianNumbers = '۰۱۲۳۴۵۶۷۸۹';
             const arabicNumbers = '٠١٢٣٤٥٦٧٨٩'
             const englishNumbers = '0123456789';
@@ -124,16 +84,48 @@ class PeoplesCards extends Component {
             if (currentTarget.value=='0'){
                 return
             }    
-         }
+        }
         pay.amount = currentTarget.value
         this.setState({pays})
         this.validate(currentTarget.id)
         
         
     }
-      
-      addPay = ({currentTarget})=>{
-        this.vanishResult()       
+
+   
+    addPeople = ()=>{
+        this.setState({showResult:false})
+        const peoples = [...this.state.peoples]
+        const isValidate = peoples.every(p=> this.validate('pr:'+p.id))
+        if (!isValidate) return
+        const findMotherPay = ()=>{
+            return this.state.peoples.some(p=>p.motherPay)
+        }
+        peoples.push({
+            id: Date.now()+'',
+            name: '',
+            motherPay: !findMotherPay()
+        })
+        this.setState({peoples})
+    }
+
+    deletePeople = (personId)=>{
+        this.setState({showResult:false})
+        let peoples = [...this.state.peoples]
+        const deletedPerson = peoples.find(person=>person.id===personId)
+        if(deletedPerson.motherPay){
+            peoples[0].motherPay = true
+        }
+        peoples = peoples.filter(person=>person.id!==personId)
+        this.setState({peoples})
+        
+        let pays = [...this.state.pays]
+        pays = pays.filter(pay=>pay.ownerId!==personId)
+        this.setState({pays})
+    }
+
+    addPay = ({currentTarget})=>{
+        this.setState({showResult:false})
         if(!this.validate(currentTarget.id)) return ;
         if(this.state.peoples.length===1){
             this.setState({fristPayWarning:true})
@@ -144,27 +136,36 @@ class PeoplesCards extends Component {
         }
         const ownerId = currentTarget.id.substring(3)
         const newPay = {
-          id: Date.now()+'',
-          ownerId,
-          name: '',
-          amount: '',
-          show:true,
-          paidFor: [],
+            id: Date.now()+'',
+            ownerId,
+            name: '',
+            amount: '',
+            show:true,
+            paidFor: [],
         } 
         const pays = [...this.state.pays]
         pays.map(pay=>pay.show=false)
         pays.push(newPay)
         this.setState({pays})
-        
-      } 
+    } 
 
-      deletePay = (payId)=>{
+    deletePay = (payId)=>{
         let pays = [...this.state.pays]
         pays = pays.filter(pay=>pay.id!==payId)
         this.setState({pays})
-      }
+    }
+
+    setMotherPay = ({currentTarget})=>{
+        this.setState({showResult:false})
+        const peoples = [...this.state.peoples]
+        const person = peoples.find(p=>'m'+p.id===currentTarget.id)
+        peoples.map(p=>p.motherPay=false)
+        person.motherPay=true
+        this.setState({peoples})
+    }
+
       
-      togglePaidFor = (personId,payId)=>{
+    togglePaidFor = (personId,payId)=>{
         const pays = [...this.state.pays]
         const pay = pays.find(pay=>pay.id===payId)
         if (personId==='all'){
@@ -180,15 +181,15 @@ class PeoplesCards extends Component {
         }
         this.setState({pays})
         this.validate('pf:'+payId)
-      }
+    }
 
-      togglePayDisplay = (payId)=>{
+    togglePayDisplay = (payId)=>{
         const pays = [...this.state.pays]
         const pay = pays.find(pay=>pay.id==payId)
         if (pay.show)
             if (this.validate('pn:'+payId) &&
-             this.validate('pa:'+payId) &&
-             this.validate('pf:'+payId)){
+                this.validate('pa:'+payId) &&
+                this.validate('pf:'+payId)){
                 pay.show = !pay.show
                 this.setState({pays})
                 return
@@ -201,12 +202,10 @@ class PeoplesCards extends Component {
                     pay.show=false
             })
             this.setState({pays})
-
         }          
-        
-      }
+    }
 
-      validate = (input)=>{
+    validate = (input)=>{
         const splited = input.split(':')
         const typeChar = splited[0]
         const id = splited[1]
@@ -259,13 +258,8 @@ class PeoplesCards extends Component {
                 return true   
             
         }
-      }
-   
-    vanishResult = ()=>{
-        if (this.state.showResult){
-            this.setState({showResult:false})
-        }
     }
+   
     
     componentDidMount(){
         if (this.loadData())
@@ -347,7 +341,7 @@ class PeoplesCards extends Component {
                                                 اضافه کردن هزینه
                                         </button>
                                         <div className={'position-absolute frist-pay-warning '+(this.state.fristPayWarning ? '':'d-none')}>
-                                            <span>بهتره اول همه ی دوستات رو اضافه بکنی و بعد اون هزینه ی هرکسی رو بنویسی.</span>
+                                            <span>بهتره اول همه ی دوستات رو اضافه بکنی و بعد هزینه ی انجام شده هرکسی رو بنویسی.</span>
                                         </div>
                                     </div>                                       
                                 </div>
