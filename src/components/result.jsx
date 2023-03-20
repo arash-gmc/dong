@@ -65,7 +65,6 @@ class Result extends Component {
 
     
     render(){
-        //const {motherPay}  = this.props
         const {result,errMessage} = this.state 
         const motherPay= this.props.peoples.find(p=>p.motherPay)
         return ( 

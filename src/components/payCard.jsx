@@ -6,13 +6,13 @@ class PayCard extends Component {
      
      
     render() { 
-        const {pays,onPayNameChange,onPayAmountChange,personId,peoples,togglePaidFor,fullPaidFor,errs,togglePayDisplay,deletePay} = this.props
+        const {pays,onPayNameChange,onPayAmountChange,personId,peoples,togglePaidFor,errs,togglePayDisplay,deletePay} = this.props
         const personPays = pays.filter(p=>p.ownerId===personId)
         return (
             <div className="mx-1">
                 {personPays.map(pay=> 
                     <div key={pay.id} className='my-1'>
-                        <div className='window-header p-1 text-right border-ganger position-relative' onClick={()=>togglePayDisplay(pay.id)}>
+                        <div className='window-header p-1 text-right border-ganger position-relative' >
                             <span className={errs['pn:'+pay.id]||errs['pa:'+pay.id]||errs['pf:'+pay.id]?'text-danger':''}>{pay.name}</span>
                             <span className='position-absolute delete-cross rounded-circle' onClick={()=>deletePay(pay.id)}>&#10005;</span>
                             <span className='text-danger'>{errs['pn:'+pay.id] ? '!!!':''}</span>

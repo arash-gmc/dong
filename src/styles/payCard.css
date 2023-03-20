@@ -79,14 +79,16 @@ padding-top: 8px;
 }
 
 .delete-cross{
-    top:6px;
-    left: 6px;
+    top:5px;
+    left: 5px;
     font-size: 12px;
     height: 20px;
     width: 20px;
     border: 2px solid azure;
     padding: 1px;
     transition: all 0.4s;
+    margin: 1px;
+   
 }
 
 .delete-cross:hover{
