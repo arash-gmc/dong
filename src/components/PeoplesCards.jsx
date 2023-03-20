@@ -150,6 +150,7 @@ class PeoplesCards extends Component {
     } 
 
     deletePay = (payId)=>{
+        this.setState({showResult:false})
         let pays = [...this.state.pays]
         pays = pays.filter(pay=>pay.id!==payId)
         this.setState({pays})
@@ -166,6 +167,7 @@ class PeoplesCards extends Component {
 
       
     togglePaidFor = (personId,payId)=>{
+        this.setState({showResult:false})
         const pays = [...this.state.pays]
         const pay = pays.find(pay=>pay.id===payId)
         if (personId==='all'){
@@ -259,6 +261,14 @@ class PeoplesCards extends Component {
             
         }
     }
+
+    displayResults = ()=>{
+        const pays = [...this.state.pays]
+        pays.forEach(pay=>pay.show=false)
+        this.setState(pays)
+        this.setState({showResult:true});
+        this.saveData()
+    }
    
     
     componentDidMount(){
@@ -289,7 +299,7 @@ class PeoplesCards extends Component {
                             </button>                            
                             <button 
                                 className='btn btn-dark add-people-button mt-2 d-block m-auto w-100'
-                                onClick={()=>{this.setState({showResult:true});this.saveData()}}>
+                                onClick={this.displayResults}>
                                     <a href='./#results'>دیدن نتیجه</a>
                             </button>
                             <button className='btn btn-dark add-people-button mt-2 d-block w-100'

@@ -37,6 +37,8 @@ class Result extends Component {
             errMessage = 'برای حساب کردن دنگ حداقل یه هزینه باید تعریف کنی' 
         else if (!this.validateAll())
             errMessage = 'اطلاعاتی که وارد کردی یه مشکلی داره. دوباره چک کن.'       
+        else if (!this.props.peoples.find(p=>p.motherPay))
+            errMessage = 'مادرخرج انتخاب نشده.'
         else
             this.claculate()    
         this.setState({errMessage}) 
