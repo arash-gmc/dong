@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SiteHeader from './components/header';
 import './App.css';
-import PeoplesCards from './components/PeoplesCards';
+import Main from './components/main';
 
 class App extends Component {
   
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div className="App">
         <SiteHeader />                
-        <PeoplesCards />
+        <Main />
              
         </div>  
         

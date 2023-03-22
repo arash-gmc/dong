@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import PayCard from "./payCard";
 import Result from "./result"
-import '../styles/peoples.css'
+import '../styles/main.css'
+import Starter from './starter';
+import Buttons from './buttons';
+import PeoplesCard from './PeoplesCard';
 
-class PeoplesCards extends Component {
+class Main extends Component {
     state = { 
         peoples : [],
         pays:[],
         errs:{},
         showResult:true,
-        fristPayWarning:false
      }
 
     saveData = ()=>{
@@ -93,7 +95,7 @@ class PeoplesCards extends Component {
     }
 
    
-    addPeople = ()=>{
+    addPeople = (id,name)=>{
         this.setState({showResult:false})
         const peoples = [...this.state.peoples]
         const isValidate = peoples.every(p=> this.validate('pr:'+p.id))
@@ -102,8 +104,8 @@ class PeoplesCards extends Component {
             return this.state.peoples.some(p=>p.motherPay)
         }
         peoples.push({
-            id: Date.now()+'',
-            name: '',
+            id,
+            name,
             motherPay: !findMotherPay()
         })
         this.setState({peoples})
@@ -277,99 +279,49 @@ class PeoplesCards extends Component {
             this.setState({showResult:false})
     }
 
-    render() { 
+    render() {
+        
+        if (this.state.peoples.length===0)
+        return(
+            <Starter mainAddPeople = {this.addPeople} />
+        )
+
+        if (this.state.peoples.length>0)
         return (
             <div>
-                <div>
-                    {this.state.peoples.length===0 &&
-                    <div className='col-md-4 col-12 m-auto pt-4'>
-                        <button 
-                            className='btn btn-lg btn-dark add-people-button mt-3'
-                            onClick={this.addPeople}  
-                            >با اضافه کردن دوستات شروع کن 
-                        </button>
-                    </div>}
-                </div>
+                
                 <div className='row'>    
-                    {this.state.peoples.length>0 && 
-                        <div className='col-lg-1 col-md-2 col-3 pe-0 pe-sm-2 position-fixed fixed-right'>
-                            <button className='btn btn-dark add-people-button mt-2 d-block w-100'
-                                onClick={this.addPeople}  
-                                >یه نفر دیگه
-                            </button>                            
-                            <button 
-                                className='btn btn-dark add-people-button mt-2 d-block m-auto w-100'
-                                onClick={this.displayResults}>
-                                    <a href='./#results'>دیدن نتیجه</a>
-                            </button>
-                            <button className='btn btn-dark add-people-button mt-2 d-block w-100'
-                                onClick={this.saveData} 
-                                >ذخیره
-                            </button>
-                            <button className='btn btn-dark add-people-button mt-2 d-block w-100'
-                                onClick={this.resetAll} 
-                                >ریست
-                            </button>
-                        </div>}
+                    
+                        <Buttons
+                            addPeople ={this.addPeople}
+                            displayResults ={this.displayResults}
+                            saveData = {this.saveData}
+                            resetAll = {this.resetAll}
+
+                        />
                     <div className='col-3 col-md-2 col-lg-1'></div>    
-                    <div className="row col-9 col-md-10 col-lg-8 px-sm-2 p-0"> 
+                    <div className="row col-9 col-md-10 col-lg-8 px-sm-2 p-0 me-sm-1"> 
                         {this.state.peoples.map(person=> 
                             <div className="col-md-4 col-sm-6 mb-3" key={person.id}>                        
-                                <div className="card people-card position-relative" >
-                                    <div className='position-absolute delete-icon rounded-circle' onClick={()=>this.deletePeople(person.id)}>&#10005;</div>
-                                    <div className='mb-3'>
-                                        <input 
-                                            type='text' 
-                                            className={'w-75 mt-2 '+ (this.state.errs['pr:'+person.id] ? 'border-danger' : '')}
-                                            value={person.name}
-                                            name='personName'
-                                            id = {'pr:'+person.id}
-                                            onChange={this.handlePeopleNameChange}
-                                            maxLength='32'
-                                            placeholder='اسم'
-                                            autoFocus >
-                                        </input>
-                                        <div className='validation-error'>{this.state.errs['pr:'+person.id]}</div>
-                                    </div>
-                                    {person.motherPay && 
-                                        <div className='motherpay-text'>
-                                            <span className="text-success">&#10004; مادرخرج</span>
-                                        </div> 
-                                    }
-                                    {person.motherPay ||
-                                    <div>
-                                        <button 
-                                            className="btn btn-success" 
-                                            id={'m'+person.id}
-                                            onClick={this.setMotherPay}
-                                            style={{'fontSize':'14px'}}>
-                                                تعیین به عنوان مادرخرج
-                                        </button>
-                                    </div>
-                                    }
-                                    
-                                    <div className='position-relative'>
-                                        <button 
-                                            className="btn btn-primary peoples-button" 
-                                            onClick={this.addPay} id={'pr:'+person.id}>
-                                                اضافه کردن هزینه
-                                        </button>
-                                        <div className={'position-absolute frist-pay-warning '+(this.state.fristPayWarning ? '':'d-none')}>
-                                            <span>بهتره اول همه ی دوستات رو اضافه بکنی و بعد هزینه ی انجام شده هرکسی رو بنویسی.</span>
-                                        </div>
-                                    </div>                                       
-                                </div>
-                                    <PayCard 
-                                        personId={person.id} 
-                                        pays={this.state.pays} 
-                                        onPayNameChange={this.handlePayNameChange}
-                                        onPayAmountChange={this.handlePayAmountChange}
-                                        peoples = {this.state.peoples}
-                                        togglePaidFor={this.togglePaidFor} 
-                                        errs = {this.state.errs}
-                                        togglePayDisplay = {this.togglePayDisplay}
-                                        deletePay = {this.deletePay}
-                                    />
+                                <PeoplesCard 
+                                    deletePeople={this.deletePeople}
+                                    errs = {this.state.errs}
+                                    person = {person}
+                                    handlePeopleNameChange = {this.handlePeopleNameChange}
+                                    setMotherPay = {this.setMotherPay}
+                                    addPay = {this.addPay}
+                                />
+                                <PayCard 
+                                    personId={person.id} 
+                                    pays={this.state.pays} 
+                                    onPayNameChange={this.handlePayNameChange}
+                                    onPayAmountChange={this.handlePayAmountChange}
+                                    peoples = {this.state.peoples}
+                                    togglePaidFor={this.togglePaidFor} 
+                                    errs = {this.state.errs}
+                                    togglePayDisplay = {this.togglePayDisplay}
+                                    deletePay = {this.deletePay}
+                                />
                             </div>        
                         )}
                                     
@@ -387,9 +339,10 @@ class PeoplesCards extends Component {
                 <div className='col-12 d-lg-none' id='results'>
                         {this.state.showResult && 
                                 <Result  
-                                pays = {this.state.pays}
-                                peoples = {this.state.peoples}
-                                validate = {this.validate}/>} 
+                                    pays = {this.state.pays}
+                                    peoples = {this.state.peoples}
+                                    validate = {this.validate}
+                                />} 
                 </div>
 
             </div>
@@ -397,4 +350,4 @@ class PeoplesCards extends Component {
     }
 }
  
-export default PeoplesCards;
+export default Main;

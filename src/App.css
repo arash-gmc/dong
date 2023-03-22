@@ -29,6 +29,14 @@ a{
   text-decoration: none !important;
 }
 
+input{
+  text-align: center;
+  border: 1px dashed rgb(132, 132, 132);
+  border-radius: 10px;
+  align-self: center;
+  
+}
+
 /*
  2C3333
  2E4F4F

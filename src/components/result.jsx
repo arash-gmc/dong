@@ -34,7 +34,7 @@ class Result extends Component {
         if (this.props.peoples.length<2)
             errMessage = 'برای حساب کردن دنگ حداقل دو نفر لازم داری'
         else if (this.props.pays.length<1)
-            errMessage = 'برای حساب کردن دنگ حداقل یه هزینه باید تعریف کنی' 
+            errMessage = 'اول از طریق گزینه ی «اضافه کردن هزینه» برای شخص مورد نظر یه هزینه تعریف کن.' 
         else if (!this.validateAll())
             errMessage = 'اطلاعاتی که وارد کردی یه مشکلی داره. دوباره چک کن.'       
         else if (!this.props.peoples.find(p=>p.motherPay))
@@ -84,15 +84,15 @@ class Result extends Component {
                 {!errMessage&&<div className='card result-card mx-1 pt-2'>
                     <p>دنگ همه حساب شد و نتیجه اینه:</p>
                     {result.map(r=>
-                        <div className='align-items-right' key={r.id}>
+                        <div className='me-2' key={r.id}>
                             {motherPay.id!==r.id && r.dong>0 &&
                                 <p key={r.id} className='text-left'>
-                                    &#x2022; {r.name} باید به {motherPay.name} مبلغ {r.dong} هزار تومن بده.
+                                    <span className='plus'>&#x2B;</span> {r.name} باید به {motherPay.name} مبلغ {r.dong} هزار تومن بده.
                                 </p>
                             }
                             {motherPay.id!==r.id && r.dong<0 &&
                                 <p key={r.id}>
-                                    &#x2022; {r.name} باید از {motherPay.name} مبلغ {-r.dong} هزار تومن بگیره.
+                                    <span className='minus'>&#8722;</span> {r.name} باید از {motherPay.name} مبلغ {-r.dong} هزار تومن  بگیره.
                                 </p>
                             }
                             {motherPay.id!==r.id && r.dong===0 &&

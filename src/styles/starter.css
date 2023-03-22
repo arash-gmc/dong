@@ -1,0 +1,11 @@
+input{
+    font-size: 18px !important;
+    border-radius: 6px;
+    border: none;
+}
+
+.back{
+    background-color: #2C3333;
+    display: inline-block;
+    border-radius: 10px;
+}

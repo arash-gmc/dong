@@ -15,3 +15,13 @@
     border-radius: 6px;
 }
 
+.minus{
+  font-size: 20px !important;
+  color: red;
+}
+
+.plus{
+  font-size: 20px !important;
+  color: blue;
+}
+
