@@ -9,7 +9,7 @@ class PayCard extends Component {
         const {pays,onPayNameChange,onPayAmountChange,personId,peoples,togglePaidFor,errs,togglePayDisplay,deletePay} = this.props
         const personPays = pays.filter(p=>p.ownerId===personId)
         return (
-            <div className="mx-1">
+            <div className="mx-1 mx-lg-0">
                 {personPays.map(pay=> 
                     <div key={pay.id} className='my-1 position-relative'>
                         <div className='window-header p-1 text-right border-ganger' onClick={()=>togglePayDisplay(pay.id)}>
@@ -17,7 +17,7 @@ class PayCard extends Component {
                             <span className='text-danger'>{errs['pn:'+pay.id] ? '!!!':''}</span>
                         </div>
                         <span className='position-absolute delete-cross rounded-circle' onClick={()=>deletePay(pay.id)}>&#10005;</span>
-                        <div className={pay.show ? 'mx-2 window-body':'zero-height mx-2 window-body'}>
+                        <div className={'mx-2 mx-lg-0 window-body '+(pay.show ? '':'zero-height')}>
                             <div className='p-3'>
                                 <div className='mb-3'>
 

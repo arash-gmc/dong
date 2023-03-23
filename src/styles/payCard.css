@@ -13,12 +13,13 @@
 .window-body{
     color:#2C3333;
     background-color: #CBE4DE;
-    max-height: 600px;
+    max-height: 500px;
     text-align: center;
     overflow: hidden;
     transition: max-height 1s;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    opacity: 90%;
 
 }
 
@@ -93,4 +94,13 @@ padding-top: 8px;
 .delete-cross:hover{
     color: rgb(227, 65, 65);
     border-color:  rgb(227, 65, 65);
+}
+
+
+@media (min-width:768px){
+   .window-body{
+    position: absolute !important;
+    top: 30px !important;
+    z-index: 110;
+   } 
 }

@@ -1,6 +1,7 @@
 input{
     font-size: 18px !important;
     border-radius: 6px;
+    width: 70%;
     border: none;
 }
 
@@ -8,4 +9,12 @@ input{
     background-color: #2C3333;
     display: inline-block;
     border-radius: 10px;
+    width: 80%;
+    min-width: 300px;
+    max-width: 500px;
+    transition: all 1s;
+}
+
+.hide{
+    opacity: 0;
 }

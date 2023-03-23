@@ -6,13 +6,14 @@ class Starter extends Component {
     state = { 
         peoplesName : [],
         showFields : false,
+        hide:true
      }
-     nums = ['اول','دوم','سوم','چهارم','پنجم','ششم','هفتم','هشتم','نهم','دهم','یازدهم','دوازدهم'] 
+     nums = ['اول (مادرخرج)','دوم','سوم','چهارم','پنجم','ششم','هفتم','هشتم','نهم','دهم','یازدهم','دوازدهم'] 
     
      showNumber = (n)=>{
         if (n<12)
             return this.nums[n]
-        return ('نفر شماره '+(n+1))    
+        return (' شماره'+(n+1))    
      }
 
      addPerson = ()=>{
@@ -39,7 +40,7 @@ class Starter extends Component {
         const addOnePeople = ()=>{
             this.props.mainAddPeople(peoplesName[i].id,peoplesName[i].name)
             if(i<peoplesName.length-1)
-                setTimeout(addOnePeople,20)
+                setTimeout(addOnePeople,500)
             i++
             
         }
@@ -53,12 +54,15 @@ class Starter extends Component {
         this.addPerson()
         setTimeout(()=>{
             this.addPerson()
-        },50)
+        },100)
         setTimeout(()=>{
             this.addPerson()
-        },300)
+        },200)
+        
         
      }
+
+    
     
      render() { 
 
@@ -74,8 +78,8 @@ class Starter extends Component {
                 );
 
         return(
-            <div className='mt-4 p-3 back'>
-                <h4 className='mb-4'>اسم دوستات رو بنویس</h4>
+            <div className='mt-4 p-3 back '>
+                <h5 className='mb-4'>اول اسم بچه های اکیپتون رو بنویس</h5>
                 {this.state.peoplesName.map((people,index)=>
                 <div key = {people.id} className='my-2'>
                     <input 

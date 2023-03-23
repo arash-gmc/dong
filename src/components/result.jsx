@@ -48,20 +48,22 @@ class Result extends Component {
 
     validateAll = ()=>{
 
+        let OK = true
+
         if(!this.props.pays.every(pay=> this.props.validate('pn:'+pay.id)))
-            return false
+            OK = false
         
         if(!this.props.pays.every(pay=> this.props.validate('pa:'+pay.id)))
-            return false
+            OK = false
 
         if(!this.props.pays.every(pay=> this.props.validate('pf:'+pay.id)))
-            return false    
+            OK = false    
 
         if(!this.props.peoples.every(person=> this.props.validate('pr:'+person.id)))
-            return false    
+            OK = false    
         
             
-        return true
+        return OK
 
     }
 
@@ -70,7 +72,7 @@ class Result extends Component {
         const {result,errMessage} = this.state 
         const motherPay= this.props.peoples.find(p=>p.motherPay)
         return ( 
-            <div className='m-auto mt-2'>
+            <div className='m-auto mt-2 result-div'>
                 <div className='result-header p-1'>
                     <h3>نتیجه</h3>
 
@@ -97,7 +99,7 @@ class Result extends Component {
                             }
                             {motherPay.id!==r.id && r.dong===0 &&
                                 <p key={r.id}>
-                                    &#x2022; {r.name} حسابش تسویه هست.
+                                    <span className='bullet'> &#x2022;</span> {r.name} حسابش تسویه هست.
                                 </p>
                             }
                             
