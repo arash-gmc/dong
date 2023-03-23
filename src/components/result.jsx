@@ -88,7 +88,7 @@ class Result extends Component {
                     {result.map(r=>
                         <div className='me-2' key={r.id}>
                             {motherPay.id!==r.id && r.dong>0 &&
-                                <p key={r.id} className='text-left'>
+                                <p key={r.id}>
                                     <span className='plus'>&#x2B;</span> {r.name} باید به {motherPay.name} مبلغ {r.dong} هزار تومن بده.
                                 </p>
                             }

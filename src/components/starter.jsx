@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/starter.css'
+import SiteHeader from './header';
 
 
 class Starter extends Component {
@@ -67,51 +68,63 @@ class Starter extends Component {
      render() { 
 
         if (!this.state.showFields)
-        return (  
-                <div className='col-md-4 col-12 m-auto pt-4'>
-                    <button 
-                        className='btn btn-lg btn-dark add-people-button mt-3'
-                        onClick={()=>this.setState({showFields:true})}  
-                        >با اضافه کردن دوستات شروع کن 
-                    </button>
-                </div>
+        return ( 
+                <div>
+                    <div className='logo'>
+                        <img src='./new-logo.png'></img> 
+                        <div className='mt-4'>
+                            <h2 className='my-3'>دنگ آنلاین</h2>
+                            <h5>دنگ خودت رو عین آب خوردن حساب کن</h5>
+                        </div>  
+                    </div> 
+                    <div className='m-auto pt-4'>
+                        <button 
+                            className='btn btn-lg btn-dark add-people-button mt-3'
+                            onClick={()=>this.setState({showFields:true})}  
+                            >با اضافه کردن دوستات شروع کن 
+                        </button>
+                    </div>
+                </div>    
                 );
 
         return(
-            <div className='mt-4 p-3 back '>
-                <h5 className='mb-4'>اول اسم بچه های اکیپتون رو بنویس</h5>
-                {this.state.peoplesName.map((people,index)=>
-                <div key = {people.id} className='my-2'>
-                    <input 
-                        type='text'                        
-                        placeholder={'اسم نفر '+this.showNumber(index) }
-                        value = {people.name}
-                        onChange = {this.handleNameChange}
-                        id={'si:'+people.id}
-                         >
-                    </input>
-                    <button 
-                        className='btn btn-danger mx-2' 
-                        onClick={()=>this.deletePeoples(people.id)}
-                        disabled = {this.state.peoplesName.length<2}                    
-                        >حذف
-                    </button>
+            <div>
+                <SiteHeader />
+                <div className='mt-4 p-3 back '>
+                    <h5 className='mb-4'>اسم بچه های اکیپتون رو بنویس</h5>
+                    {this.state.peoplesName.map((people,index)=>
+                    <div key = {people.id} className='my-2'>
+                        <input 
+                            type='text'                        
+                            placeholder={'اسم نفر '+this.showNumber(index) }
+                            value = {people.name}
+                            onChange = {this.handleNameChange}
+                            id={'si:'+people.id}
+                            >
+                        </input>
+                        <button 
+                            className='btn btn-danger mx-2' 
+                            onClick={()=>this.deletePeoples(people.id)}
+                            disabled = {this.state.peoplesName.length<2}                    
+                            >حذف
+                        </button>
 
-                </div>  
-                )}
-                <div>
-                    <span className='text-danger my-0 error'>{this.state.err}</span>
-                </div>
-                <div className='mt-4'>
-                    <button className='btn btn-primary mx-1' onClick={this.addPerson}>
-                        یه نفر دیگه
-                    </button>
-                    <button 
-                        className='btn btn-success mx-1' 
-                        onClick={this.nextStep}
-                        disabled={this.state.peoplesName.filter(p=>p.name).length<2}>
-                        مرحله بعد
-                    </button>
+                    </div>  
+                    )}
+                    <div>
+                        <span className='text-danger my-0 error'>{this.state.err}</span>
+                    </div>
+                    <div className='mt-4'>
+                        <button className='btn btn-primary mx-1' onClick={this.addPerson}>
+                            یه نفر دیگه
+                        </button>
+                        <button 
+                            className='btn btn-success mx-1' 
+                            onClick={this.nextStep}
+                            disabled={this.state.peoplesName.filter(p=>p.name).length<2}>
+                            مرحله بعد
+                        </button>
+                    </div>
                 </div>
             </div>
         )

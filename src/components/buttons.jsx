@@ -3,7 +3,7 @@ import '../styles/buttons.css'
 
 const Buttons = ({addPeople,displayResults,saveData,resetAll}) => {
     return ( 
-        <div className='col-lg-1 col-md-2 col-3 position-fixed fixed-right back-button py-3'>
+        <div className='col-lg-1 col-md-2 col-3 position-fixed fixed-right back-button py-lg-3'>
             <button className='btn btn-dark add-people-button d-block w-100'
                 onClick={()=>addPeople(Date.now()+'','')}  
                 >افزودن

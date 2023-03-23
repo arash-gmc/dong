@@ -5,6 +5,7 @@ import '../styles/main.css'
 import Starter from './starter';
 import Buttons from './buttons';
 import PeoplesCard from './PeoplesCard';
+import SiteHeader from './header';
 
 class Main extends Component {
     state = { 
@@ -269,7 +270,6 @@ class Main extends Component {
         pays.forEach(pay=>pay.show=false)
         this.setState(pays)
         this.setState({showResult:true});
-        this.saveData()
     }
    
     
@@ -289,8 +289,8 @@ class Main extends Component {
         if (this.state.peoples.length>0)
         return (
             <div>
-                
-                <div className='row'>    
+                <SiteHeader />
+                <div className='row mt-md-5'>    
                     
                         <Buttons
                             addPeople ={this.addPeople}
@@ -336,7 +336,7 @@ class Main extends Component {
                     </div>
                 </div> 
 
-                <div className='col-12 d-lg-none' id='results'>
+                <div className='d-lg-none' id='results'>
                         {this.state.showResult && 
                                 <Result  
                                     pays = {this.state.pays}

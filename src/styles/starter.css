@@ -12,9 +12,16 @@ input{
     width: 80%;
     min-width: 300px;
     max-width: 500px;
-    transition: all 1s;
+    transition: all 1.5s;
 }
 
 .hide{
     opacity: 0;
+}
+
+.logo img{
+    width: 100px;
+}
+.logo{
+    margin-top: 20vh;
 }

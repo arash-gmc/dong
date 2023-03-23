@@ -5,3 +5,40 @@
     height: 8px;
     margin-bottom: 12px;
   }
+
+
+  .header{
+    height: 12vh;
+
+  }
+
+  .header img{
+    width: 90px;
+    margin-bottom: 40px;
+  }
+
+  .header-text{
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px ;
+  }
+
+  .header-logo{
+    display: inline-block;
+  }
+
+
+  .header-md{
+    text-align: right;
+
+  }
+
+  .header-md img{
+    width: 40px;
+  }
+
+  .header-md h4{
+    display: inline-block;
+    margin-right: 1%;
+
+  }
