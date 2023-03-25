@@ -25,3 +25,8 @@ input{
 .logo{
     margin-top: 20vh;
 }
+
+.logo h1{
+    font-family: titraj;
+    font-size: 36px;
+}

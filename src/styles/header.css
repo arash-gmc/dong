@@ -1,0 +1,40 @@
+.header{
+    height: 60px;
+}
+
+.header h2{
+  font-family: titraj;
+  margin-bottom: 0;
+}
+
+.header img{
+    width: 90px;
+    margin-bottom: 44px;
+  }
+
+  .header-text{
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px ;
+  }
+
+  .header-logo{
+    display: inline-block;
+  }
+
+
+  .header-md{
+    text-align: right;
+
+  }
+
+  .header-md img{
+    width: 40px;
+  }
+
+  .header-md h4{
+    display: inline-block;
+    margin-right: 1%;
+    font-family: titraj;
+
+  }

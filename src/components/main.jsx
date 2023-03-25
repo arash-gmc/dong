@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash'
 import PayCard from "./payCard";
 import Result from "./result"
 import '../styles/main.css'
@@ -16,7 +17,9 @@ class Main extends Component {
      }
 
     saveData = ()=>{
-        localStorage.setItem('data',JSON.stringify(this.state))
+        
+        localStorage.setItem('data',JSON.stringify({peoples:this.state.peoples,pays:this.state.pays}))
+        this.setState({})
     }
 
     loadData = ()=>{
@@ -30,8 +33,7 @@ class Main extends Component {
             peoples : [],
             pays:[],
             errs:{},
-            showResult:false,
-            fristPayWarning:false})
+            showResult:false})
         localStorage.removeItem('data')    
     }
 
@@ -95,12 +97,19 @@ class Main extends Component {
         
     }
 
+    isStored = ()=>{
+        const stored = JSON.parse(localStorage.getItem('data'))
+        if(!stored) return false
+        return _.isEqual(this.state.peoples, stored.peoples)&&
+            _.isEqual(this.state.pays,stored.pays)
+    }
    
     addPeople = (id,name)=>{
         this.setState({showResult:false})
         const peoples = [...this.state.peoples]
-        const isValidate = peoples.every(p=> this.validate('pr:'+p.id))
-        if (!isValidate) return
+        if(!this.validateAll()) return ;
+        const pays = [...this.state.pays]
+        pays.forEach(pay=>pay.show=false)
         const findMotherPay = ()=>{
             return this.state.peoples.some(p=>p.motherPay)
         }
@@ -109,7 +118,7 @@ class Main extends Component {
             name,
             motherPay: !findMotherPay()
         })
-        this.setState({peoples})
+        this.setState({peoples,pays})
     }
 
     deletePeople = (personId)=>{
@@ -127,9 +136,9 @@ class Main extends Component {
         this.setState({pays})
     }
 
-    addPay = ({currentTarget})=>{
+    addPay = (personId)=>{
         this.setState({showResult:false})
-        if(!this.validate(currentTarget.id)) return ;
+        if(!this.validateAll()) return ;
         if(this.state.peoples.length===1){
             this.setState({fristPayWarning:true})
             setTimeout(()=>{
@@ -137,19 +146,20 @@ class Main extends Component {
             },4000)
             return
         }
-        const ownerId = currentTarget.id.substring(3)
+        const ownerId = personId
         const newPay = {
             id: Date.now()+'',
             ownerId,
             name: '',
             amount: '',
-            show:true,
+            show:false,
             paidFor: [],
         } 
         const pays = [...this.state.pays]
         pays.map(pay=>pay.show=false)
         pays.push(newPay)
         this.setState({pays})
+        setTimeout(()=>{newPay.show=true;this.setState({pays})},500)
     } 
 
     deletePay = (payId)=>{
@@ -215,7 +225,7 @@ class Main extends Component {
         const typeChar = splited[0]
         const id = splited[1]
         const errs = {...this.state.errs}
-        errs[input] = ''
+        delete errs[input]
         switch (typeChar) {
             case 'pr' :
                 const person = this.state.peoples.find(p=>p.id === id)
@@ -265,6 +275,44 @@ class Main extends Component {
         }
     }
 
+    validateAll = ()=>{
+
+        let OK = true
+        const {pays,peoples} = this.state
+        const errs = {}
+
+        peoples.forEach(person=>{
+            if (person.name===''){
+                errs['pr:'+person.id] = 'اسم باید وارد بشه'
+                OK = false
+            }
+            if(peoples.filter(p=>p.name==person.name).length>1){
+                errs['pr:'+person.id] = 'این اسم رو دو بار وارد کردی'
+                OK = false
+            }
+        })
+        pays.forEach(pay=>{
+            if (pay.name===''){
+                errs['pn:'+pay.id] = 'برای هزینت یه اسم بذار' 
+                OK = false 
+            }
+            if (pay.amount===''|| pay.amount === 0){
+                errs['pa:'+pay.id] = 'پول خرج شده رو بنویس'  
+                OK = false 
+            }
+            if (pay.paidFor.length===0){
+                errs['pf:'+pay.id] = 'حداقل یک نفر رو انتخاب کن'  
+                OK = false 
+            }
+        })
+
+        
+        
+        this.setState({errs})    
+        return OK
+
+    }
+
     displayResults = ()=>{
         const pays = [...this.state.pays]
         pays.forEach(pay=>pay.show=false)
@@ -276,8 +324,10 @@ class Main extends Component {
     componentDidMount(){
         if (this.loadData())
             this.setState(this.loadData())
-            this.setState({showResult:false})
+        this.setState({showResult:false})    
     }
+
+    
 
     render() {
         
@@ -291,18 +341,20 @@ class Main extends Component {
             <div>
                 <SiteHeader />
                 <div className='row mt-md-5'>    
-                    
+                    <div className='col-xl-1 col-sm-2 col-3 position-fixed fixed-right back-button py-md-3'>  
                         <Buttons
                             addPeople ={this.addPeople}
                             displayResults ={this.displayResults}
                             saveData = {this.saveData}
                             resetAll = {this.resetAll}
-
+                            isStored = {this.isStored}
+                            showResult = {this.state.showResult}
                         />
-                    <div className='col-3 col-md-2 col-lg-1'></div>    
-                    <div className="row col-9 col-md-10 col-lg-8 px-sm-2 p-0 me-sm-1"> 
+                    </div>    
+                    <div className='col-3 col-sm-2 col-xl-1'></div>    
+                    <div className="row col-9 col-sm-10 col-xl-8 px-md-2 p-0 me-sm-1"> 
                         {this.state.peoples.map(person=> 
-                            <div className="col-md-4 col-sm-6 mb-3" key={person.id}>                        
+                            <div className="col-lg-4 col-sm-6 mb-3" key={person.id}>                        
                                 <PeoplesCard 
                                     deletePeople={this.deletePeople}
                                     errs = {this.state.errs}
@@ -311,39 +363,44 @@ class Main extends Component {
                                     setMotherPay = {this.setMotherPay}
                                     addPay = {this.addPay}
                                 />
-                                <PayCard 
-                                    personId={person.id} 
-                                    pays={this.state.pays} 
-                                    onPayNameChange={this.handlePayNameChange}
-                                    onPayAmountChange={this.handlePayAmountChange}
-                                    peoples = {this.state.peoples}
-                                    togglePaidFor={this.togglePaidFor} 
-                                    errs = {this.state.errs}
-                                    togglePayDisplay = {this.togglePayDisplay}
-                                    deletePay = {this.deletePay}
-                                />
+                                <div className="mx-1 mx-lg-0">
+                                    {this.state.pays.filter(p=>p.ownerId===person.id).map(pay=> 
+                                        <PayCard 
+                                            pay={pay} 
+                                            key={pay.id}
+                                            onPayNameChange={this.handlePayNameChange}
+                                            onPayAmountChange={this.handlePayAmountChange}
+                                            peoples = {this.state.peoples}
+                                            togglePaidFor={this.togglePaidFor} 
+                                            errs = {this.state.errs}
+                                            togglePayDisplay = {this.togglePayDisplay}
+                                            deletePay = {this.deletePay}
+                                        />
+                                    )}
+                                </div>
                             </div>        
                         )}
                                     
                         
                     </div>
-                    <div className='col-lg-3 d-none d-lg-block'>
+                    <div className='col-xl-3 d-none d-xl-block'>
                         {this.state.showResult && 
                             <Result  
                                 pays = {this.state.pays}
                                 peoples = {this.state.peoples}
-                                validate = {this.validate}/>} 
+                                validateAll = {this.validateAll}/>} 
+                    </div>
+
+                    <div className='d-none d-sm-block col-sm-2'></div>
+                    <div className='d-xl-none col-sm-10 ' id='results'>
+                            {this.state.showResult && 
+                                    <Result  
+                                        pays = {this.state.pays}
+                                        peoples = {this.state.peoples}
+                                        validateAll = {this.validateAll}
+                                    />} 
                     </div>
                 </div> 
-
-                <div className='d-lg-none' id='results'>
-                        {this.state.showResult && 
-                                <Result  
-                                    pays = {this.state.pays}
-                                    peoples = {this.state.peoples}
-                                    validate = {this.validate}
-                                />} 
-                </div>
 
             </div>
         );

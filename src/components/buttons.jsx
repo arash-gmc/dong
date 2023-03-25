@@ -1,20 +1,22 @@
 import React from 'react';
 import '../styles/buttons.css'
 
-const Buttons = ({addPeople,displayResults,saveData,resetAll}) => {
+const Buttons = ({addPeople,displayResults,saveData,resetAll,isStored,showResult}) => {
     return ( 
-        <div className='col-lg-1 col-md-2 col-3 position-fixed fixed-right back-button py-lg-3'>
+        <div>
             <button className='btn btn-dark add-people-button d-block w-100'
                 onClick={()=>addPeople(Date.now()+'','')}  
                 >افزودن
             </button>                            
             <button 
                 className='btn btn-dark add-people-button mt-2 d-block m-auto w-100'
-                onClick={displayResults}>
+                onClick={displayResults}
+                disabled={showResult}>
                     <a href='./#results'>نتیجه</a>
             </button>
             <button className='btn btn-dark add-people-button mt-2 d-block w-100'
-                onClick={saveData} 
+                onClick={saveData}
+                disabled = {isStored()} 
                 >ذخیره
             </button>
             <button className='btn btn-dark add-people-button mt-2 d-block w-100'

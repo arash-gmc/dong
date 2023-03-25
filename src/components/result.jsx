@@ -31,12 +31,12 @@ class Result extends Component {
 
     componentDidMount(){
         let errMessage = ''
-        if (this.props.peoples.length<2)
+        if (!this.props.validateAll())
+            errMessage = 'اطلاعاتی که وارد کردی یه مشکلی داره. دوباره چک کن.' 
+        else if (this.props.peoples.length<2)
             errMessage = 'برای حساب کردن دنگ حداقل دو نفر لازم داری'
         else if (this.props.pays.length<1)
-            errMessage = 'اول از طریق گزینه ی «اضافه کردن هزینه» برای شخص مورد نظر یه هزینه تعریف کن.' 
-        else if (!this.validateAll())
-            errMessage = 'اطلاعاتی که وارد کردی یه مشکلی داره. دوباره چک کن.'       
+            errMessage = 'اول از طریق گزینه ی «اضافه کردن هزینه» برای شخص مورد نظر یه هزینه تعریف کن.'       
         else if (!this.props.peoples.find(p=>p.motherPay))
             errMessage = 'مادرخرج انتخاب نشده.'
         else
@@ -46,26 +46,7 @@ class Result extends Component {
 
     }
 
-    validateAll = ()=>{
-
-        let OK = true
-
-        if(!this.props.pays.every(pay=> this.props.validate('pn:'+pay.id)))
-            OK = false
-        
-        if(!this.props.pays.every(pay=> this.props.validate('pa:'+pay.id)))
-            OK = false
-
-        if(!this.props.pays.every(pay=> this.props.validate('pf:'+pay.id)))
-            OK = false    
-
-        if(!this.props.peoples.every(person=> this.props.validate('pr:'+person.id)))
-            OK = false    
-        
-            
-        return OK
-
-    }
+    
 
     
     render(){

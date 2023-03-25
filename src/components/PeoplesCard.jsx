@@ -46,7 +46,7 @@ class PeoplesCard extends Component {
                     <div className='position-relative'>
                         <button 
                             className="btn btn-primary peoples-button" 
-                            onClick={addPay} id={'pr:'+person.id}>
+                            onClick={()=>addPay(person.id)}>
                                 اضافه کردن هزینه
                         </button>
                         

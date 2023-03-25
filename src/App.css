@@ -24,6 +24,13 @@
    
 }
 
+@font-face {
+  font-family: "titraj";
+  src: local("titraj"),
+    url("./fonts/titraj/Titraj.ttf") format("truetype");
+   
+}
+
 a{
   color: azure !important;
   text-decoration: none !important;

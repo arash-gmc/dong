@@ -5,7 +5,11 @@ import SiteHeader from './header';
 
 class Starter extends Component {
     state = { 
-        peoplesName : [],
+        peoplesName : [
+            {id: (Number(Date.now())-1000)+'',name:''},
+            {id: (Number(Date.now())-500)+'',name:''},
+            {id: (Number(Date.now()))+'',name:''},
+        ],
         showFields : false,
         hide:true
      }
@@ -41,7 +45,7 @@ class Starter extends Component {
         const addOnePeople = ()=>{
             this.props.mainAddPeople(peoplesName[i].id,peoplesName[i].name)
             if(i<peoplesName.length-1)
-                setTimeout(addOnePeople,500)
+                setTimeout(addOnePeople,400)
             i++
             
         }
@@ -51,19 +55,7 @@ class Starter extends Component {
         
      }
 
-     componentDidMount(){
-        this.addPerson()
-        setTimeout(()=>{
-            this.addPerson()
-        },100)
-        setTimeout(()=>{
-            this.addPerson()
-        },200)
         
-        
-     }
-
-    
     
      render() { 
 
@@ -73,7 +65,7 @@ class Starter extends Component {
                     <div className='logo'>
                         <img src='./new-logo.png'></img> 
                         <div className='mt-4'>
-                            <h2 className='my-3'>دنگ آنلاین</h2>
+                            <h1 className='my-3'>دنگ آنلاین</h1>
                             <h5>دنگ خودت رو عین آب خوردن حساب کن</h5>
                         </div>  
                     </div> 
@@ -90,7 +82,7 @@ class Starter extends Component {
         return(
             <div>
                 <SiteHeader />
-                <div className='mt-4 p-3 back '>
+                <div className='mt-5 p-3 back '>
                     <h5 className='mb-4'>اسم بچه های اکیپتون رو بنویس</h5>
                     {this.state.peoplesName.map((people,index)=>
                     <div key = {people.id} className='my-2'>
