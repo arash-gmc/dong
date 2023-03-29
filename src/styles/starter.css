@@ -8,10 +8,10 @@ input{
 .back{
     background-color: #2C3333;
     display: inline-block;
-    border-radius: 10px;
-    width: 80%;
+    border-radius: 20px;
+    width:96%;
     min-width: 300px;
-    max-width: 500px;
+    max-width: 600px;
     transition: all 1.5s;
 }
 

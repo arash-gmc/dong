@@ -64,14 +64,14 @@ class Starter extends Component {
                 <div>
                     <div className='logo'>
                         <img src='./new-logo.png'></img> 
-                        <div className='mt-4'>
+                        <div className='mt-3'>
                             <h1 className='my-3'>دنگ آنلاین</h1>
                             <h5>دنگ خودت رو عین آب خوردن حساب کن</h5>
                         </div>  
                     </div> 
                     <div className='m-auto pt-4'>
                         <button 
-                            className='btn btn-lg btn-dark add-people-button mt-3'
+                            className='btn btn-lg btn-dark add-people-button mt-5'
                             onClick={()=>this.setState({showFields:true})}  
                             >با اضافه کردن دوستات شروع کن 
                         </button>
@@ -92,6 +92,7 @@ class Starter extends Component {
                             value = {people.name}
                             onChange = {this.handleNameChange}
                             id={'si:'+people.id}
+                            className='py-1'
                             >
                         </input>
                         <button 
