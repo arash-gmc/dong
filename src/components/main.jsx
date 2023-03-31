@@ -110,7 +110,10 @@ class Main extends Component {
         const peoples = [...this.state.peoples]
         if(!this.validateAll()) return ;
         const pays = [...this.state.pays]
-        pays.forEach(pay=>pay.show=false)
+        pays.forEach(pay=>{
+            pay.show=false
+            pay.unequalPays.push({id:id,money:''})
+        })
         const findMotherPay = ()=>{
             return this.state.peoples.some(p=>p.motherPay)
         }
@@ -153,9 +156,14 @@ class Main extends Component {
             ownerId,
             name: '',
             amount: '',
+            equal:true,
             show:false,
             paidFor: [],
-        } 
+            unequalPays:[]
+        }
+        this.state.peoples.forEach(person=>{
+            newPay.unequalPays.push({id:person.id,money:''})
+        }) 
         const pays = [...this.state.pays]
         pays.map(pay=>pay.show=false)
         pays.push(newPay)
@@ -177,6 +185,14 @@ class Main extends Component {
         peoples.map(p=>p.motherPay=false)
         person.motherPay=true
         this.setState({peoples})
+    }
+
+    togglePayType = (payId)=>{
+        this.setState({showResult:false})
+        const pays = [...this.state.pays]
+        const pay = pays.find(p=>p.id===payId) 
+        pay.equal = !pay.equal
+        this.setState({pays})
     }
 
       
@@ -203,9 +219,7 @@ class Main extends Component {
         const pays = [...this.state.pays]
         const pay = pays.find(pay=>pay.id==payId)
         if (pay.show)
-            if (this.validate('pn:'+payId) &&
-                this.validate('pa:'+payId) &&
-                this.validate('pf:'+payId)){
+            if (this.validateAll()){
                 pay.show = !pay.show
                 this.setState({pays})
                 return
@@ -219,6 +233,40 @@ class Main extends Component {
             })
             this.setState({pays})
         }          
+    }
+
+    handleUnequalPayPrice = ({currentTarget})=>{
+        this.setState({showResult:false})
+        const info = currentTarget.id.split(':')
+        const pays = [...this.state.pays]
+        const pay = pays.find(p=>p.id===info[1])
+        const personPay = pay.unequalPays.find(p=>p.id===info[2])
+        if (currentTarget.value.length>personPay.money.length){
+            const persianNumbers = '۰۱۲۳۴۵۶۷۸۹';
+            const arabicNumbers = '٠١٢٣٤٥٦٧٨٩'
+            const englishNumbers = '0123456789';
+            const lastChar = currentTarget.value.slice(-1)
+
+            if(persianNumbers.includes(lastChar) ){
+                    let index = persianNumbers.indexOf(lastChar)
+                    currentTarget.value = currentTarget.value.slice(0,-1) + englishNumbers[index]
+            }
+
+            if(arabicNumbers.includes(lastChar) ){
+                let index = arabicNumbers.indexOf(lastChar)
+                currentTarget.value = currentTarget.value.slice(0,-1) + englishNumbers[index]
+            }
+
+            if(!Number(currentTarget.value) && currentTarget.value!=='0')
+                return
+
+            if (currentTarget.value=='0'){
+                return
+            }    
+        }
+        personPay.money = currentTarget.value
+        this.setState({pays})
+        this.validate('pq:'+info[1])
     }
 
     validate = (input)=>{
@@ -271,7 +319,17 @@ class Main extends Component {
                     return false
                 }
                 this.setState({errs})
-                return true   
+                return true  
+                
+            case 'pq' :
+                const pay4 = this.state.pays.find(p=>p.id === id)
+                if (pay4.unequalPays.filter(ueqp=>ueqp.money).length===0){
+                    errs[input] = 'حداقل برای یک نفر هزینه بنویس' 
+                    this.setState({errs})
+                    return false
+                }
+                this.setState({errs})
+                return true 
             
         }
     }
@@ -297,13 +355,21 @@ class Main extends Component {
                 errs['pn:'+pay.id] = 'برای هزینت یه اسم بذار' 
                 OK = false 
             }
-            if (pay.amount===''|| pay.amount === 0){
-                errs['pa:'+pay.id] = 'پول خرج شده رو بنویس'  
-                OK = false 
-            }
-            if (pay.paidFor.length===0){
-                errs['pf:'+pay.id] = 'حداقل یک نفر رو انتخاب کن'  
-                OK = false 
+
+            if(pay.equal){
+                if (pay.amount===''|| pay.amount === 0){
+                    errs['pa:'+pay.id] = 'پول خرج شده رو بنویس'  
+                    OK = false 
+                }
+                if (pay.paidFor.length===0){
+                    errs['pf:'+pay.id] = 'حداقل یک نفر رو انتخاب کن'  
+                    OK = false 
+                }
+            }else{
+                if (pay.unequalPays.filter(ueqp=>ueqp.money).length===0){
+                    errs['pq:'+pay.id] = 'حداقل برای یک نفر هزینه بنویس'   
+                    OK = false 
+                }
             }
         })
 
@@ -375,7 +441,9 @@ class Main extends Component {
                                             togglePaidFor={this.togglePaidFor} 
                                             errs = {this.state.errs}
                                             togglePayDisplay = {this.togglePayDisplay}
+                                            togglePayType = {this.togglePayType}
                                             deletePay = {this.deletePay}
+                                            handleUnequalPayPrice = {this.handleUnequalPayPrice}
                                         />
                                     )}
                                 </div>

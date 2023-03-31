@@ -26,14 +26,13 @@
 .window-body{
     color:#2C3333;
     background-color: #CBE4DE;
-    max-height: 500px;
+    max-height: 700px;
     text-align: center;
     overflow: hidden;
     transition: max-height 1s;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     z-index: 10;
-    
 
 }
 
@@ -81,16 +80,25 @@ padding: 8px;
 }
 
 .amount-input{
-    width: 40% !important;
+    width: 30% !important;
     margin-left: 4px !important;
     margin-right: 4px !important;
 }
   
 .hezar{
     font-size: 12px;
-    margin: 0 !important;
     padding-right: 0;
+    padding-right: 6px !important;
+    text-align: right;
+    
 }
+
+.unequal input{
+    font-size: 14px !important;
+    
+}
+
+
 
 .delete-cross{
     top:5px;
@@ -107,6 +115,11 @@ padding: 8px;
 .delete-cross:hover{
     color: rgb(227, 65, 65);
     border-color:  rgb(227, 65, 65);
+}
+
+.unequal span{
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 

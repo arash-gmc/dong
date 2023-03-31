@@ -15,11 +15,22 @@ class Result extends Component {
             let paid = 0
             let paidForHim = 0
             this.props.pays.map(pay=>{
-                const money = Number(pay.amount)
-                if (pay.ownerId===person.id)
-                    paid += money
-                if (pay.paidFor.includes(person.id))
-                    paidForHim += (money/pay.paidFor.length)         
+                if(pay.equal){
+                    const money = Number(pay.amount)
+                    if (pay.ownerId===person.id)
+                        paid += money
+                    if (pay.paidFor.includes(person.id))
+                        paidForHim += (money/pay.paidFor.length)          
+                }else{
+                    pay.unequalPays.forEach(ueqp=>{
+                        const money = Number(ueqp.money)
+                        if (money&&pay.ownerId===person.id)
+                            paid+=money
+                        if(money&&ueqp.id===person.id)
+                            paidForHim += money    
+                    })
+
+                }
             })
             result.push({
                 id : person.id,
