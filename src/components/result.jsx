@@ -7,7 +7,7 @@ class Result extends Component {
         errMessage:''
     }
 
-    focusInput = React.createRef()
+    focusDiv = React.createRef()
 
     claculate = ()=>{
         let result = []
@@ -55,9 +55,7 @@ class Result extends Component {
         else
             this.claculate()    
         this.setState({errMessage}) 
-        this.focusInput.current.focus()
-        
-        
+        this.focusDiv.current.focus()      
 
     }
 
@@ -68,7 +66,7 @@ class Result extends Component {
         const {result,errMessage} = this.state 
         const motherPay= this.props.peoples.find(p=>p.motherPay)
         return ( 
-            <div className='mx-auto mb-0 mt-2 result-div'>
+            <div className='mx-auto mb-0 mt-2 result-div' >
                 <div className='result-header p-1' >
                     <h3>نتیجه</h3>
                 </div>
@@ -104,7 +102,7 @@ class Result extends Component {
                     )}
                     
                 </div>}
-                <input className='focus-input' ref={this.focusInput}></input>
+                <div tabIndex='0' ref={this.focusDiv}></div>
                 
             </div>
         );
