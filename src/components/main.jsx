@@ -219,7 +219,7 @@ class Main extends Component {
         const pays = [...this.state.pays]
         const pay = pays.find(pay=>pay.id==payId)
         if (pay.show)
-            if (this.validateAll()){
+            if (this.validatePay(pay.id)){
                 pay.show = !pay.show
                 this.setState({pays})
                 return
@@ -332,6 +332,37 @@ class Main extends Component {
                 return true 
             
         }
+    }
+
+    validatePay = (payId)=>{
+
+        let OK = true
+        const errs = {...this.state.errs}
+        const pay = this.state.pays.find(p=>p.id===payId)
+
+        if (pay.name===''){
+            errs['pn:'+pay.id] = 'برای هزینت یه اسم بذار' 
+            OK = false 
+        }
+
+        if(pay.equal){
+            if (pay.amount===''|| pay.amount === 0){
+                errs['pa:'+pay.id] = 'پول خرج شده رو بنویس'  
+                OK = false 
+            }
+            if (pay.paidFor.length===0){
+                errs['pf:'+pay.id] = 'حداقل یک نفر رو انتخاب کن'  
+                OK = false 
+            }
+        }else{
+            if (pay.unequalPays.filter(ueqp=>ueqp.money).length===0){
+                errs['pq:'+pay.id] = 'حداقل برای یک نفر هزینه بنویس'   
+                OK = false 
+            }
+        }
+
+        this.setState({errs})    
+        return OK
     }
 
     validateAll = ()=>{

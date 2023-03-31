@@ -16,7 +16,6 @@
     font-weight: bold;
     font-size: 14px;
     opacity: 0.8;
-
 }
 
 .window-header:hover{
@@ -33,6 +32,7 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     z-index: 10;
+    width: 100%;
 
 }
 
@@ -79,17 +79,13 @@ color: #6b6b6b;
 padding: 8px;
 }
 
-.amount-input{
-    width: 30% !important;
-    margin-left: 4px !important;
-    margin-right: 4px !important;
-}
   
 .hezar{
     font-size: 12px;
     padding-right: 0;
-    padding-right: 6px !important;
+    padding-right: 4px !important;
     text-align: right;
+    margin-top: 6px !important;
     
 }
 
@@ -123,10 +119,19 @@ padding: 8px;
 }
 
 
-@media (min-width:768px){
+@media (min-width:576px){
    .window-body{
     position: absolute !important;
     top: 30px !important;
     z-index: 110;
-   } 
+   }
+   
+}
+
+@media (max-width:576px){
+    .window-body{
+        width:95% !important;
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+    }
 }

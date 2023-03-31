@@ -20,7 +20,7 @@ class PayCard extends Component {
                         <span className='text-danger'>{errs['pn:'+pay.id] ? '!!!':''}</span>
                     </div>
                     <span className='position-absolute delete-cross rounded-circle' onClick={()=>deletePay(pay.id)}>&#10005;</span>
-                    <div className={'mx-2 mx-lg-0 window-body '+(pay.show ? '':'zero-height')}>
+                    <div className={'window-body '+(pay.show ? '':'zero-height')}>
                         <div className='p-3'>
                             
                             <div className='mb-2'>
@@ -33,14 +33,14 @@ class PayCard extends Component {
                                         onChange={onPayNameChange}
                                         placeholder='نام هزینه'
                                         maxLength='46'
-                                        className='w-75'
+                                        style={{width:'86%'}}
                                         autoFocus >
                                     </input>
                                 </div>
                                 <div className='validation-error'>{errs['pn:'+pay.id]}</div>
                                 
-                                <div className='row'>
-                                    <span className='col-5 my-2 px-0'>نوع پرداخت</span>
+                                <div className='row mx-1'>
+                                    <span className='col-6 my-2 px-0'>نوع پرداخت</span>
                                     <span className='on px-2 py-1 mb-0 col-5'
                                     onClick={()=>togglePayType(pay.id)}>
                                         {pay.equal ? 'برابر' : 'نابرابر'}
@@ -55,7 +55,7 @@ class PayCard extends Component {
                                 </div>
 
                                 <div className='row'>
-                                    {peoples.map(person=>
+                                    {peoples.filter(person=>person.name).map(person=>
                                         <div className='col-6' key={person.id}>
                                             <div className={pay.paidFor.includes(person.id) ? 'on':'off'} 
                                                 onClick={()=>togglePaidFor(person.id,pay.id)}>
@@ -71,8 +71,8 @@ class PayCard extends Component {
                                     <div className='validation-error'>{errs['pf:'+pay.id]}</div>                               
                                 </div>
 
-                                <div>
-                                    <span>مبلغ کل: </span>
+                                <div className='d-flex justify-content-center'>
+                                    <span>مبلغ: </span>
                                     <input 
                                         type='text' 
                                         value={pay.amount}
@@ -80,7 +80,7 @@ class PayCard extends Component {
                                         name = 'payAmount'
                                         onChange={onPayAmountChange}
                                         placeholder='0'
-                                        className='amount-input'
+                                        className='w-25 me-3'
                                         maxLength='10'
                                         >
                                     </input>
@@ -90,11 +90,11 @@ class PayCard extends Component {
 
                             </div>}
 
-                            {!pay.equal&&<div className='mb-3'>
+                            {!pay.equal&&<div>
 
-                                <div className='mb-3'>مقدار هزینه شده برای هرکس:</div>
+                                <div className='mb-3'>مقدار هزینه شده برای:</div>
 
-                                {peoples.map(person=>
+                                {peoples.filter(person=>person.name).map(person=>
                                     <div key={person.id} className='my-2 unequal row'>
                                         <span className='col-5 text-start'>{person.name}</span>
                                         <input 
@@ -104,7 +104,7 @@ class PayCard extends Component {
                                             placeholder='0'
                                             maxLength='8'
                                             className='col-3'/>
-                                        <span className='col-3 hezar'>هزار تومان</span>    
+                                        <span className='col-4 hezar'>هزار تومان</span>    
                                     </div>
                                     
                                 )}
