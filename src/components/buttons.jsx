@@ -12,7 +12,7 @@ const Buttons = ({addPeople,displayResults,saveData,resetAll,isStored,showResult
                 className='btn btn-dark add-people-button mt-2 d-block m-auto w-100'
                 onClick={displayResults}
                 disabled={showResult}>
-                    <a href='./#results'>نتیجه</a>
+                    نتیجه
             </button>
             <button className='btn btn-dark add-people-button mt-2 d-block w-100'
                 onClick={saveData}

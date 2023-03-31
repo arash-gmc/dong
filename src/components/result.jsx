@@ -7,6 +7,8 @@ class Result extends Component {
         errMessage:''
     }
 
+    focusInput = React.createRef()
+
     claculate = ()=>{
         let result = []
         this.props.peoples.map(person=>{
@@ -42,6 +44,8 @@ class Result extends Component {
         else
             this.claculate()    
         this.setState({errMessage}) 
+        this.focusInput.current.focus()
+        
         
 
     }
@@ -53,18 +57,17 @@ class Result extends Component {
         const {result,errMessage} = this.state 
         const motherPay= this.props.peoples.find(p=>p.motherPay)
         return ( 
-            <div className='m-auto mt-2 result-div'>
-                <div className='result-header p-1'>
+            <div className='mx-auto mb-0 mt-2 result-div'>
+                <div className='result-header p-1' >
                     <h3>نتیجه</h3>
-
                 </div>
 
-                {errMessage&&<div className='card result-card mx-1 text-danger pt-2'>
+                {errMessage&&<div className='card result-card mx-2 text-danger pt-2'>
                     <p>{errMessage}</p>
                     
                 </div>}
                 
-                {!errMessage&&<div className='card result-card mx-1 pt-2'>
+                {!errMessage&&<div className='card result-card mx-2 pt-2'>
                     <p>دنگ همه حساب شد و نتیجه اینه:</p>
                     {result.map(r=>
                         <div className='me-2' key={r.id}>
@@ -88,8 +91,9 @@ class Result extends Component {
                         
                     
                     )}
-                
+                    
                 </div>}
+                <input className='focus-input' ref={this.focusInput}></input>
                 
             </div>
         );

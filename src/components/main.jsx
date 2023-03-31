@@ -16,6 +16,7 @@ class Main extends Component {
         showResult:true,
      }
 
+
     saveData = ()=>{
         
         localStorage.setItem('data',JSON.stringify({peoples:this.state.peoples,pays:this.state.pays}))

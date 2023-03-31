@@ -1,3 +1,4 @@
+
 .result-card{
     color: #2C3333 !important;
     background-color: #CBE4DE !important;
@@ -14,6 +15,7 @@
     background-color: #2C3333;
     color: azure;
     border-radius: 6px;
+    z-index: 5000 !important;
 }
 
 .minus{
@@ -29,5 +31,13 @@
 .bullet{
   font-size: 20px !important;
   
+}
+
+.focus-input{
+  height: 0;
+  width: 0;
+  opacity: 0;
+  margin-top: 4px;
+  margin-bottom: 0;
 }
 
