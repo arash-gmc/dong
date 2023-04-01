@@ -15,7 +15,7 @@ class Main extends Component {
         errs:{},
         showResult:true,
      }
-
+     
 
     saveData = ()=>{
         
@@ -128,6 +128,7 @@ class Main extends Component {
     deletePeople = (personId)=>{
         this.setState({showResult:false})
         let peoples = [...this.state.peoples]
+        if (peoples.length===1) return
         const deletedPerson = peoples.find(person=>person.id===personId)
         if(deletedPerson.motherPay){
             peoples[0].motherPay = true

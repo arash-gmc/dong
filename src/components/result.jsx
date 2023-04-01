@@ -73,6 +73,7 @@ class Result extends Component {
 
                 {errMessage&&<div className='card result-card mx-2 text-danger pt-2'>
                     <p>{errMessage}</p>
+                    <div tabIndex='0' ref={this.focusDiv}></div>
                     
                 </div>}
                 
@@ -82,17 +83,17 @@ class Result extends Component {
                         <div className='me-2' key={r.id}>
                             {motherPay.id!==r.id && r.dong>0 &&
                                 <p key={r.id}>
-                                    <span className='plus'>&#x2B;</span> {r.name} باید به {motherPay.name} مبلغ {r.dong} هزار تومن بده.
+                                    <span className='plus'>&#x2B;</span> <strong>{r.name}</strong> باید به {motherPay.name} مبلغ {r.dong} هزار تومن بده.
                                 </p>
                             }
                             {motherPay.id!==r.id && r.dong<0 &&
                                 <p key={r.id}>
-                                    <span className='minus'>&#8722;</span> {r.name} باید از {motherPay.name} مبلغ {-r.dong} هزار تومن  بگیره.
+                                    <span className='minus'>&#8722;</span> <strong>{r.name}</strong> باید از {motherPay.name} مبلغ {-r.dong} هزار تومن  بگیره.
                                 </p>
                             }
                             {motherPay.id!==r.id && r.dong===0 &&
                                 <p key={r.id}>
-                                    <span className='bullet'> &#x2022;</span> {r.name} حسابش تسویه هست.
+                                    <span className='bullet'> &#x2022;</span> حساب <strong>{r.name}</strong> تسویه هست.
                                 </p>
                             }
                             
@@ -101,8 +102,8 @@ class Result extends Component {
                     
                     )}
                     
+                    <div tabIndex='0' ref={this.focusDiv}></div>
                 </div>}
-                <div tabIndex='0' ref={this.focusDiv}></div>
                 
             </div>
         );
