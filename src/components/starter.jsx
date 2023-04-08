@@ -23,7 +23,7 @@ class Starter extends Component {
 
      addPerson = ()=>{
         const peoplesName = [...this.state.peoplesName] 
-        peoplesName.push({id:Date.now() + '',name:''})
+        peoplesName.push({id:Date.now()+'',name:''})
         this.setState({peoplesName})
      }
 
@@ -43,7 +43,7 @@ class Starter extends Component {
 
      nextStep = ()=>{
         const addOnePeople = ()=>{
-            this.props.mainAddPeople(peoplesName[i].id,peoplesName[i].name)
+            this.props.mainAddPeople('s-'+peoplesName[i].id,peoplesName[i].name)
             if(i<peoplesName.length-1)
                 setTimeout(addOnePeople,400)
             i++
