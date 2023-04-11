@@ -16,6 +16,7 @@
     font-weight: bold;
     font-size: 14px;
     opacity: 0.8;
+    user-select: none;
 }
 
 .window-header:hover{
@@ -33,7 +34,11 @@
     border-bottom-right-radius: 8px;
     z-index: 10;
     width: 100%;
+    user-select: none;
+}
 
+.window-body span{
+    overflow: hidden;
 }
 
 .zero-height{
@@ -57,6 +62,8 @@
 
 .on , .off  {  
 border-radius: 15px;
+white-space: nowrap;
+user-select: none;
 height: 40px;
 cursor: pointer;
 margin: auto;

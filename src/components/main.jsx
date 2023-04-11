@@ -322,7 +322,7 @@ class Main extends Component {
       case "pn":
         const pay1 = this.state.pays.find((p) => p.id === id);
         if (pay1.name === "") {
-          errs[input] = "برای هزینت یه اسم بذار";
+          errs[input] = "برای هزینه یه اسم بذار";
           this.setState({ errs });
           return false;
         }
@@ -367,7 +367,7 @@ class Main extends Component {
     const pay = this.state.pays.find((p) => p.id === payId);
 
     if (pay.name === "") {
-      errs["pn:" + pay.id] = "برای هزینت یه اسم بذار";
+      errs["pn:" + pay.id] = "برای هزینه یه اسم بذار";
       OK = false;
     }
 
@@ -408,7 +408,7 @@ class Main extends Component {
     });
     pays.forEach((pay) => {
       if (pay.name === "") {
-        errs["pn:" + pay.id] = "برای هزینت یه اسم بذار";
+        errs["pn:" + pay.id] = "برای هزینه یه اسم بذار";
         OK = false;
       }
 

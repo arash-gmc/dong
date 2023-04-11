@@ -66,7 +66,7 @@ class PayCard extends Component {
                   name="payName"
                   onChange={onPayNameChange}
                   placeholder="نام هزینه"
-                  maxLength="46"
+                  maxLength="32"
                   style={{ width: "86%" }}
                   autoFocus
                 ></input>

@@ -40,7 +40,7 @@ class PeoplesCard extends Component {
             name="personName"
             id={"pr:" + person.id}
             onChange={handlePeopleNameChange}
-            maxLength="20"
+            maxLength="16"
             placeholder="اسم"
             autoFocus={person.id[0] !== "s"}
           ></input>

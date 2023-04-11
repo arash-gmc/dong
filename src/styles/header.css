@@ -1,5 +1,6 @@
 .header{
     height: 60px;
+    user-select: none;
 }
 
 .header h2{
@@ -25,7 +26,7 @@
 
   .header-md{
     text-align: right;
-
+    user-select: none;
   }
 
   .header-md img{

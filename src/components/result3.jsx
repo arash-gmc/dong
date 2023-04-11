@@ -57,7 +57,7 @@ class Result extends Component {
     const { result, errMessage } = this.state;
     const motherPay = this.props.peoples.find((p) => p.motherPay);
     return (
-      <div className="mx-auto m-1 mt-2 result-div">
+      <div className="mx-auto mb-0 mt-2 result-div">
         <div className="result-header p-1">
           <h3>نتیجه</h3>
         </div>
@@ -66,8 +66,8 @@ class Result extends Component {
           <div className="card result-card mx-2 text-danger pt-2">
             <p>{errMessage}</p>
             <div
-              ref={this.focusDiv}
               tabIndex="0"
+              ref={this.focusDiv}
             ></div>
           </div>
         )}
@@ -102,9 +102,10 @@ class Result extends Component {
                 )}
               </div>
             ))}
+
             <div
-              ref={this.focusDiv}
               tabIndex="0"
+              ref={this.focusDiv}
             ></div>
           </div>
         )}

@@ -24,6 +24,7 @@ input{
 }
 .logo{
     margin-top: 20vh;
+    user-select:none;
 }
 
 .logo h1{

@@ -6,6 +6,8 @@
     margin-bottom: 0 !important;
     transition: all 1s;
     opacity: 0.85;
+    border-radius: 16px !important;
+    user-select: none;
   }
 
   .people-card:hover{
