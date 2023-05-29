@@ -7,13 +7,19 @@ import Starter from "./starter";
 import Buttons from "./buttons";
 import PeoplesCard from "./PeoplesCard";
 import SiteHeader from "./header";
+import setEnglishNumber from "../functions/setEnglishNumbers";
+import { validateOne } from "../functions/validateOne";
+import { validateAll } from "../functions/validateAll";
+import { validateOnePay } from "../functions/validateOnePay";
+import { isStored } from "../functions/isStored";
+import { loadData } from "../functions/loadData";
 
 class Main extends Component {
   state = {
     peoples: [],
     pays: [],
     errs: {},
-    showResult: true,
+    showResult: false,
   };
 
   saveData = () => {
@@ -21,29 +27,7 @@ class Main extends Component {
       "data",
       JSON.stringify({ peoples: this.state.peoples, pays: this.state.pays })
     );
-    this.setState({});
-  };
-
-  loadData = () => {
-    const data = JSON.parse(localStorage.getItem("data"));
-    const peoplesKeys = ["id", "name", "motherPay"];
-    const payKeys = [
-      "id",
-      "ownerId",
-      "name",
-      "amount",
-      "equal",
-      "show",
-      "paidFor",
-      "unequalPays",
-    ];
-    if (!data) return;
-    if (data.peoples[0])
-      if (peoplesKeys.some((pk) => data.peoples[0][pk] === undefined)) return;
-    if (data.pays[0])
-      if (payKeys.some((pk) => data.pays[0][pk] === undefined)) return;
-
-    return data;
+    this.forceUpdate();
   };
 
   resetAll = () => {
@@ -91,47 +75,20 @@ class Main extends Component {
     const pays = [...this.state.pays];
     const pay = pays.find((pay) => pay.id === currentTarget.id.substring(3));
     if (currentTarget.value.length > pay.amount.length) {
-      const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
-      const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
-      const englishNumbers = "0123456789";
       const lastChar = currentTarget.value.slice(-1);
-
-      if (persianNumbers.includes(lastChar)) {
-        let index = persianNumbers.indexOf(lastChar);
-        currentTarget.value =
-          currentTarget.value.slice(0, -1) + englishNumbers[index];
-      }
-
-      if (arabicNumbers.includes(lastChar)) {
-        let index = arabicNumbers.indexOf(lastChar);
-        currentTarget.value =
-          currentTarget.value.slice(0, -1) + englishNumbers[index];
-      }
-
-      if (!Number(currentTarget.value) && currentTarget.value !== "0") return;
-
-      if (currentTarget.value === "0") {
-        return;
-      }
+      currentTarget.value =
+        currentTarget.value.slice(0, -1) + setEnglishNumber(lastChar);
+      if (currentTarget.value === "0") return;
     }
     pay.amount = currentTarget.value;
     this.setState({ pays });
     this.validate(currentTarget.id);
   };
 
-  isStored = () => {
-    const stored = JSON.parse(localStorage.getItem("data"));
-    if (!stored) return false;
-    return (
-      _.isEqual(this.state.peoples, stored.peoples) &&
-      _.isEqual(this.state.pays, stored.pays)
-    );
-  };
-
   addPeople = (id, name) => {
     this.setState({ showResult: false });
     const peoples = [...this.state.peoples];
-    if (!this.validateAll()) return;
+    if (!this.validateAllParams()) return;
     const pays = [...this.state.pays];
     pays.forEach((pay) => {
       pay.show = false;
@@ -164,17 +121,9 @@ class Main extends Component {
     this.setState({ pays });
   };
 
-  addPay = (personId) => {
+  addPay = (ownerId) => {
     this.setState({ showResult: false });
-    if (!this.validateAll()) return;
-    if (this.state.peoples.length === 1) {
-      this.setState({ fristPayWarning: true });
-      setTimeout(() => {
-        this.setState({ fristPayWarning: false });
-      }, 4000);
-      return;
-    }
-    const ownerId = personId;
+    if (!this.validateAllParams()) return;
     const newPay = {
       id: Date.now() + "",
       ownerId,
@@ -267,28 +216,10 @@ class Main extends Component {
     const pay = pays.find((p) => p.id === info[1]);
     const personPay = pay.unequalPays.find((p) => p.id === info[2]);
     if (currentTarget.value.length > personPay.money.length) {
-      const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
-      const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
-      const englishNumbers = "0123456789";
       const lastChar = currentTarget.value.slice(-1);
-
-      if (persianNumbers.includes(lastChar)) {
-        let index = persianNumbers.indexOf(lastChar);
-        currentTarget.value =
-          currentTarget.value.slice(0, -1) + englishNumbers[index];
-      }
-
-      if (arabicNumbers.includes(lastChar)) {
-        let index = arabicNumbers.indexOf(lastChar);
-        currentTarget.value =
-          currentTarget.value.slice(0, -1) + englishNumbers[index];
-      }
-
-      if (!Number(currentTarget.value) && currentTarget.value !== "0") return;
-
-      if (currentTarget.value === "0") {
-        return;
-      }
+      if (currentTarget.value === "0" || isNaN(lastChar)) return;
+      currentTarget.value =
+        currentTarget.value.slice(0, -1) + setEnglishNumber(lastChar);
     }
     personPay.money = currentTarget.value;
     this.setState({ pays });
@@ -296,162 +227,44 @@ class Main extends Component {
   };
 
   validate = (input) => {
-    const splited = input.split(":");
-    const typeChar = splited[0];
-    const id = splited[1];
+    const { peoples, pays } = this.state;
     const errs = { ...this.state.errs };
     delete errs[input];
-    switch (typeChar) {
-      case "pr":
-        const person = this.state.peoples.find((p) => p.id === id);
-        if (person.name === "") {
-          errs[input] = "اسم باید وارد بشه";
-          this.setState({ errs });
-          return false;
-        }
-        if (
-          this.state.peoples.filter((p) => p.name === person.name).length > 1
-        ) {
-          errs[input] = "این اسم رو دو بار وارد کردی";
-          this.setState({ errs });
-          return false;
-        }
-        this.setState({ errs });
-        return true;
-
-      case "pn":
-        const pay1 = this.state.pays.find((p) => p.id === id);
-        if (pay1.name === "") {
-          errs[input] = "برای هزینه یه اسم بذار";
-          this.setState({ errs });
-          return false;
-        }
-        this.setState({ errs });
-        return true;
-
-      case "pa":
-        const pay2 = this.state.pays.find((p) => p.id === id);
-        if (pay2.amount === "" || pay2.amount === 0) {
-          errs[input] = "پول خرج شده رو بنویس";
-          this.setState({ errs });
-          return false;
-        }
-        this.setState({ errs });
-        return true;
-
-      case "pf":
-        const pay3 = this.state.pays.find((p) => p.id === id);
-        if (pay3.paidFor.length === 0) {
-          errs[input] = "حداقل یک نفر رو انتخاب کن";
-          this.setState({ errs });
-          return false;
-        }
-        this.setState({ errs });
-        return true;
-
-      case "pq":
-        const pay4 = this.state.pays.find((p) => p.id === id);
-        if (pay4.unequalPays.filter((ueqp) => ueqp.money).length === 0) {
-          errs[input] = "حداقل برای یک نفر هزینه بنویس";
-          this.setState({ errs });
-          return false;
-        }
-        this.setState({ errs });
-        return true;
-      default:
-        return false;
+    const res = validateOne(input, peoples, pays);
+    if (res === true) {
+      this.setState({ errs });
+      return true;
     }
+    errs[input] = res;
+    this.setState({ errs });
+    return false;
   };
 
   validatePay = (payId) => {
-    let OK = true;
-    const errs = { ...this.state.errs };
     const pay = this.state.pays.find((p) => p.id === payId);
-
-    if (pay.name === "") {
-      errs["pn:" + pay.id] = "برای هزینه یه اسم بذار";
-      OK = false;
-    }
-
-    if (pay.equal) {
-      if (pay.amount === "" || pay.amount === 0) {
-        errs["pa:" + pay.id] = "پول خرج شده رو بنویس";
-        OK = false;
-      }
-      if (pay.paidFor.length === 0) {
-        errs["pf:" + pay.id] = "حداقل یک نفر رو انتخاب کن";
-        OK = false;
-      }
-    } else {
-      if (pay.unequalPays.filter((ueqp) => ueqp.money).length === 0) {
-        errs["pq:" + pay.id] = "حداقل برای یک نفر هزینه بنویس";
-        OK = false;
-      }
-    }
-
+    const errs = validateOnePay(pay);
+    if (_.isEqual(errs, {})) return true;
     this.setState({ errs });
-    return OK;
+    return false;
   };
 
-  validateAll = () => {
-    let OK = true;
+  validateAllParams = () => {
     const { pays, peoples } = this.state;
-    const errs = {};
-
-    peoples.forEach((person) => {
-      if (person.name === "") {
-        errs["pr:" + person.id] = "اسم باید وارد بشه";
-        OK = false;
-      }
-      if (peoples.filter((p) => p.name === person.name).length > 1) {
-        errs["pr:" + person.id] = "این اسم رو دو بار وارد کردی";
-        OK = false;
-      }
-    });
-    pays.forEach((pay) => {
-      if (pay.name === "") {
-        errs["pn:" + pay.id] = "برای هزینه یه اسم بذار";
-        OK = false;
-      }
-
-      if (pay.equal) {
-        if (pay.amount === "" || pay.amount === 0) {
-          errs["pa:" + pay.id] = "پول خرج شده رو بنویس";
-          OK = false;
-        }
-        if (pay.paidFor.length === 0) {
-          errs["pf:" + pay.id] = "حداقل یک نفر رو انتخاب کن";
-          OK = false;
-        }
-      } else {
-        if (pay.unequalPays.filter((ueqp) => ueqp.money).length === 0) {
-          errs["pq:" + pay.id] = "حداقل برای یک نفر هزینه بنویس";
-          OK = false;
-        }
-      }
-    });
-
+    const errs = validateAll(peoples, pays);
+    if (_.isEqual(errs, {})) return true;
     this.setState({ errs });
-    return OK;
-  };
-
-  displayResults = () => {
-    const pays = [...this.state.pays];
-    pays.forEach((pay) => (pay.show = false));
-    this.setState(pays);
-    this.setState({ showResult: true });
+    return false;
   };
 
   componentDidMount() {
-    if (this.loadData()) this.setState(this.loadData());
-    this.setState({ showResult: false });
+    if (loadData()) this.setState(loadData());
   }
 
   render() {
-    if (this.state.peoples.length === 0)
-      return <Starter mainAddPeople={this.addPeople} />;
+    const { peoples, pays } = this.state;
+    if (peoples.length === 0) return <Starter mainAddPeople={this.addPeople} />;
 
-    if (this.state.peoples.length > 0)
+    if (peoples.length > 0)
       return (
         <div>
           <SiteHeader />
@@ -459,10 +272,15 @@ class Main extends Component {
             <div className="col-xl-1 col-sm-2 col-3 position-fixed fixed-right back-button py-md-3">
               <Buttons
                 addPeople={this.addPeople}
-                displayResults={this.displayResults}
+                displayResults={() =>
+                  this.setState({
+                    pays: pays.map((p) => (p.show ? { ...p, show: false } : p)),
+                    showResult: true,
+                  })
+                }
                 saveData={this.saveData}
                 resetAll={this.resetAll}
-                isStored={this.isStored}
+                isStored={() => isStored(peoples, pays)}
                 showResult={this.state.showResult}
               />
             </div>
@@ -509,7 +327,7 @@ class Main extends Component {
                 <Result
                   pays={this.state.pays}
                   peoples={this.state.peoples}
-                  validateAll={this.validateAll}
+                  validateAll={this.validateAllParams}
                 />
               )}
             </div>
