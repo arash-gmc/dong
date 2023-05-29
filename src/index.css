@@ -5,6 +5,7 @@ body {
   background-color: #2E4F4F !important;
   color: #CBE4DE !important;
   font-family: vazir,Arial, Helvetica, sans-serif !important;
+  user-select: none;
   
 }
 

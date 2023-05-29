@@ -1,41 +1,41 @@
-.header{
+
+.larg-header{
     height: 60px;
-    user-select: none;
 }
 
-.header h2{
+.larg-header h1{
   font-family: titraj;
   margin-bottom: 0;
+  font-size: 32px;
 }
 
-.header img{
-    width: 90px;
-    margin-bottom: 44px;
-  }
+.larg-header h2{
+  font-size: 16px;
+}
 
-  .header-text{
-    display: inline-block;
-    text-align: right;
-    margin-right: 10px ;
-  }
+.larg-header img{
+    width: 100px;
+    margin-bottom: 32px;
+}
 
-  .header-logo{
-    display: inline-block;
-  }
+.header-text{
+  display: inline-block;
+  text-align: right;
+  margin-right: 6px ;
+}
 
+.small-header{
+  text-align: right;
+}
 
-  .header-md{
-    text-align: right;
-    user-select: none;
-  }
+.small-header img{
+  width: 40px;
+}
 
-  .header-md img{
-    width: 40px;
-  }
+.small-header h1{
+  display: inline-block;
+  margin-right: 1%;
+  font-family: titraj;
+  font-size: 26px;
 
-  .header-md h4{
-    display: inline-block;
-    margin-right: 1%;
-    font-family: titraj;
-
-  }
+}

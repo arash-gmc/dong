@@ -4,25 +4,24 @@ import "../styles/header.css";
 const SiteHeader = () => {
   return (
     <div>
-      <div className="d-none d-md-block header">
-        <div className="header-logo">
-          <img
-            src="./new-logo.png"
-            alt="siteLogo"
-          ></img>
-        </div>
+      <div className="d-none d-md-block larg-header header">
+        <img
+          src="./new-logo.png"
+          alt="site logo"
+        />
+
         <div className="header-text">
-          <h2>دنگ آنلاین</h2>
-          <p>محاسبه ی آنلاین دنگ سفر</p>
+          <h1>دنگ آنلاین</h1>
+          <h2>محاسبه ی آنلاین دنگ سفر</h2>
         </div>
       </div>
 
-      <div className="d-md-none header-md mb-2">
+      <div className="d-md-none small-header mb-2">
         <img
           src="./new-logo.png"
           alt="site logo"
         ></img>
-        <h4>دنگ آنلاین</h4>
+        <h1>دنگ آنلاین</h1>
       </div>
     </div>
   );
