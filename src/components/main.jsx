@@ -110,7 +110,7 @@ class Main extends Component {
 
       if (!Number(currentTarget.value) && currentTarget.value !== "0") return;
 
-      if (currentTarget.value == "0") {
+      if (currentTarget.value === "0") {
         return;
       }
     }
@@ -243,7 +243,7 @@ class Main extends Component {
 
   togglePayDisplay = (payId) => {
     const pays = [...this.state.pays];
-    const pay = pays.find((pay) => pay.id == payId);
+    const pay = pays.find((pay) => pay.id === payId);
     if (pay.show)
       if (this.validatePay(pay.id)) {
         pay.show = !pay.show;
@@ -253,7 +253,7 @@ class Main extends Component {
 
     if (!pay.show) {
       pay.show = true;
-      pays.map((pay) => {
+      pays.forEach((pay) => {
         if (pay.id !== payId) pay.show = false;
       });
       this.setState({ pays });
@@ -286,7 +286,7 @@ class Main extends Component {
 
       if (!Number(currentTarget.value) && currentTarget.value !== "0") return;
 
-      if (currentTarget.value == "0") {
+      if (currentTarget.value === "0") {
         return;
       }
     }
@@ -310,7 +310,7 @@ class Main extends Component {
           return false;
         }
         if (
-          this.state.peoples.filter((p) => p.name == person.name).length > 1
+          this.state.peoples.filter((p) => p.name === person.name).length > 1
         ) {
           errs[input] = "این اسم رو دو بار وارد کردی";
           this.setState({ errs });
@@ -358,6 +358,8 @@ class Main extends Component {
         }
         this.setState({ errs });
         return true;
+      default:
+        return false;
     }
   };
 
@@ -401,7 +403,7 @@ class Main extends Component {
         errs["pr:" + person.id] = "اسم باید وارد بشه";
         OK = false;
       }
-      if (peoples.filter((p) => p.name == person.name).length > 1) {
+      if (peoples.filter((p) => p.name === person.name).length > 1) {
         errs["pr:" + person.id] = "این اسم رو دو بار وارد کردی";
         OK = false;
       }
