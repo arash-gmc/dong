@@ -13,6 +13,7 @@ import { validateAll } from "../functions/validateAll";
 import { validateOnePay } from "../functions/validateOnePay";
 import { isStored } from "../functions/isStored";
 import { loadData } from "../functions/loadData";
+import { saveData } from "../functions/saveData";
 
 class Main extends Component {
   state = {
@@ -20,14 +21,6 @@ class Main extends Component {
     pays: [],
     errs: {},
     showResult: false,
-  };
-
-  saveData = () => {
-    localStorage.setItem(
-      "data",
-      JSON.stringify({ peoples: this.state.peoples, pays: this.state.pays })
-    );
-    this.forceUpdate();
   };
 
   resetAll = () => {
@@ -195,7 +188,7 @@ class Main extends Component {
     const pay = pays.find((pay) => pay.id === payId);
     if (pay.show)
       if (this.validatePay(pay.id)) {
-        pay.show = !pay.show;
+        pay.show = false;
         this.setState({ pays });
         return;
       }
@@ -217,7 +210,7 @@ class Main extends Component {
     const personPay = pay.unequalPays.find((p) => p.id === info[2]);
     if (currentTarget.value.length > personPay.money.length) {
       const lastChar = currentTarget.value.slice(-1);
-      if (currentTarget.value === "0" || isNaN(lastChar)) return;
+      if (currentTarget.value === "0") return;
       currentTarget.value =
         currentTarget.value.slice(0, -1) + setEnglishNumber(lastChar);
     }
@@ -278,7 +271,10 @@ class Main extends Component {
                     showResult: true,
                   })
                 }
-                saveData={this.saveData}
+                saveData={() => {
+                  saveData({ peoples, pays });
+                  this.forceUpdate();
+                }}
                 resetAll={this.resetAll}
                 isStored={() => isStored(peoples, pays)}
                 showResult={this.state.showResult}
