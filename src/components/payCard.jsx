@@ -73,14 +73,26 @@ class PayCard extends Component {
               </div>
               <div className="validation-error">{errs["pn:" + pay.id]}</div>
 
-              <div className="row mx-1">
-                <span className="col-6 my-2 px-0">نوع پرداخت</span>
-                <span
-                  className="on px-2 py-1 mb-0 col-5"
-                  onClick={() => togglePayType(pay.id)}
-                >
-                  {pay.equal ? "برابر" : "نابرابر"}
-                </span>
+              <div className="d-flex mx-1 py-2 justify-content-around">
+                <div className=" my-2 text-nowrap">نوع پرداخت</div>
+                <div className=" my-2">
+                  <span
+                    className={
+                      (pay.equal ? "on " : "off ") + "pay-toggle-left px-3"
+                    }
+                    onClick={() => togglePayType(pay, true)}
+                  >
+                    برابر
+                  </span>
+                  <span
+                    className={
+                      (pay.equal ? "off" : "on") + " pay-toggle-right px-3"
+                    }
+                    onClick={() => togglePayType(pay, false)}
+                  >
+                    نابرابر
+                  </span>
+                </div>
               </div>
             </div>
 

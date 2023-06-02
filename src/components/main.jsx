@@ -156,13 +156,13 @@ class Main extends Component {
     this.setState({ peoples });
   };
 
-  togglePayType = (payId) => {
-    this.setState({ showResult: false });
-    const pays = [...this.state.pays];
-    const pay = pays.find((p) => p.id === payId);
-    pay.equal = !pay.equal;
-    this.setState({ pays });
-  };
+  // togglePayType = (payId) => {
+  //   this.setState({ showResult: false });
+  //   const pays = [...this.state.pays];
+  //   const pay = pays.find((p) => p.id === payId);
+  //   pay.equal = !pay.equal;
+  //   this.setState({ pays });
+  // };
 
   togglePaidFor = (personId, payId) => {
     this.setState({ showResult: false });
@@ -308,7 +308,13 @@ class Main extends Component {
                           togglePaidFor={this.togglePaidFor}
                           errs={this.state.errs}
                           togglePayDisplay={this.togglePayDisplay}
-                          togglePayType={this.togglePayType}
+                          togglePayType={(pay, eq) =>
+                            this.setState({
+                              pays: pays.map((p) =>
+                                p.id === pay.id ? { ...pay, equal: eq } : p
+                              ),
+                            })
+                          }
                           deletePay={this.deletePay}
                           handleUnequalPayPrice={this.handleUnequalPayPrice}
                         />
