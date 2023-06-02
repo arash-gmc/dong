@@ -6,7 +6,7 @@ const SiteHeader = () => {
     <div>
       <div className="d-none d-md-block larg-header header">
         <img
-          src="./new-logo.png"
+          src="./logo.webp"
           alt="site logo"
         />
 
@@ -18,7 +18,7 @@ const SiteHeader = () => {
 
       <div className="d-md-none small-header mb-2">
         <img
-          src="./new-logo.png"
+          src="./logo.webp"
           alt="site logo"
         ></img>
         <h1>دنگ آنلاین</h1>

@@ -67,7 +67,10 @@ class Starter extends Component {
       return (
         <div>
           <div className="logo">
-            <img src="./new-logo.png"></img>
+            <img
+              src="./logo.webp"
+              alt="site-logo"
+            ></img>
             <div className="mt-3">
               <h1 className="my-3">دنگ آنلاین</h1>
               <h5>دنگ خودت رو عین آب خوردن حساب کن</h5>
