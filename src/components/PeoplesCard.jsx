@@ -56,7 +56,7 @@ class PeoplesCard extends Component {
             <button
               className="btn btn-success"
               id={"m" + person.id}
-              onClick={setMotherPay}
+              onClick={() => setMotherPay(person.id)}
               style={{ fontSize: "14px" }}
             >
               تعیین به عنوان مادرخرج

@@ -34,7 +34,6 @@ class Main extends Component {
   };
 
   handlePeopleNameChange = ({ currentTarget }) => {
-    this.setState({ showResult: false });
     const peoples = [...this.state.peoples];
     const person = this.state.peoples.find(
       (p) => "pr:" + p.id === currentTarget.id
@@ -55,7 +54,6 @@ class Main extends Component {
   };
 
   handlePayNameChange = ({ currentTarget }) => {
-    this.setState({ showResult: false });
     const pays = [...this.state.pays];
     const pay = pays.find((pay) => pay.id === currentTarget.id.substring(3));
     pay.name = currentTarget.value;
@@ -64,7 +62,6 @@ class Main extends Component {
   };
 
   handlePayAmountChange = ({ currentTarget }) => {
-    this.setState({ showResult: false });
     const pays = [...this.state.pays];
     const pay = pays.find((pay) => pay.id === currentTarget.id.substring(3));
     if (currentTarget.value.length > pay.amount.length) {
@@ -79,9 +76,8 @@ class Main extends Component {
   };
 
   addPeople = (id, name) => {
-    this.setState({ showResult: false });
-    const peoples = [...this.state.peoples];
     if (!this.validateAllParams()) return;
+    const peoples = [...this.state.peoples];
     const pays = [...this.state.pays];
     pays.forEach((pay) => {
       pay.show = false;
@@ -99,7 +95,6 @@ class Main extends Component {
   };
 
   deletePeople = (personId) => {
-    this.setState({ showResult: false });
     let peoples = [...this.state.peoples];
     if (peoples.length === 1) return;
     const deletedPerson = peoples.find((person) => person.id === personId);
@@ -115,7 +110,6 @@ class Main extends Component {
   };
 
   addPay = (ownerId) => {
-    this.setState({ showResult: false });
     if (!this.validateAllParams()) return;
     const newPay = {
       id: Date.now() + "",
@@ -140,32 +134,7 @@ class Main extends Component {
     }, 500);
   };
 
-  deletePay = (payId) => {
-    this.setState({ showResult: false });
-    let pays = [...this.state.pays];
-    pays = pays.filter((pay) => pay.id !== payId);
-    this.setState({ pays });
-  };
-
-  setMotherPay = ({ currentTarget }) => {
-    this.setState({ showResult: false });
-    const peoples = [...this.state.peoples];
-    const person = peoples.find((p) => "m" + p.id === currentTarget.id);
-    peoples.map((p) => (p.motherPay = false));
-    person.motherPay = true;
-    this.setState({ peoples });
-  };
-
-  // togglePayType = (payId) => {
-  //   this.setState({ showResult: false });
-  //   const pays = [...this.state.pays];
-  //   const pay = pays.find((p) => p.id === payId);
-  //   pay.equal = !pay.equal;
-  //   this.setState({ pays });
-  // };
-
   togglePaidFor = (personId, payId) => {
-    this.setState({ showResult: false });
     const pays = [...this.state.pays];
     const pay = pays.find((pay) => pay.id === payId);
     if (personId === "all") {
@@ -203,7 +172,6 @@ class Main extends Component {
   };
 
   handleUnequalPayPrice = ({ currentTarget }) => {
-    this.setState({ showResult: false });
     const info = currentTarget.id.split(":");
     const pays = [...this.state.pays];
     const pay = pays.find((p) => p.id === info[1]);
@@ -253,6 +221,12 @@ class Main extends Component {
     if (loadData()) this.setState(loadData());
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.showResult) {
+      this.setState({ showResult: false });
+    }
+  }
+
   render() {
     const { peoples, pays } = this.state;
     if (peoples.length === 0) return <Starter mainAddPeople={this.addPeople} />;
@@ -288,11 +262,19 @@ class Main extends Component {
                   key={person.id}
                 >
                   <PeoplesCard
-                    deletePeople={this.deletePeople}
                     errs={this.state.errs}
                     person={person}
                     handlePeopleNameChange={this.handlePeopleNameChange}
-                    setMotherPay={this.setMotherPay}
+                    deletePeople={this.deletePeople}
+                    setMotherPay={(personId) =>
+                      this.setState({
+                        peoples: peoples.map((p) =>
+                          p.id === personId
+                            ? { ...p, motherPay: true }
+                            : { ...p, motherPay: false }
+                        ),
+                      })
+                    }
                     addPay={this.addPay}
                   />
                   <div className="mx-1 mx-lg-0">
@@ -315,7 +297,11 @@ class Main extends Component {
                               ),
                             })
                           }
-                          deletePay={this.deletePay}
+                          deletePay={(payId) =>
+                            this.setState({
+                              pays: pays.filter((p) => p.id !== payId),
+                            })
+                          }
                           handleUnequalPayPrice={this.handleUnequalPayPrice}
                         />
                       ))}
