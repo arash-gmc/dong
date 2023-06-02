@@ -29,7 +29,7 @@ class Starter extends Component {
 
   showNumber = (n) => {
     if (n < 12) return this.nums[n];
-    return " شماره" + (n + 1);
+    return n + 1 + "اُم";
   };
 
   addPerson = () => {
@@ -73,15 +73,16 @@ class Starter extends Component {
             ></img>
             <div className="mt-3">
               <h1 className="my-3">دنگ آنلاین</h1>
-              <h5>دنگ خودت رو عین آب خوردن حساب کن</h5>
+              <h2>حساب کردن دنگ سفر عین آب خوردن</h2>
             </div>
           </div>
           <div className="m-auto pt-4">
             <button
-              className="btn btn-lg btn-dark add-people-button mt-5"
+              className="btn btn-lg btn-dark add-people-button mt-3"
               onClick={() => this.setState({ showFields: true })}
             >
-              با اضافه کردن دوستات شروع کن
+              <span className="mx-2 start-tag">شروع کن</span>
+              <span className="h1">&#8666;</span>
             </button>
           </div>
         </div>
@@ -99,7 +100,7 @@ class Starter extends Component {
             >
               <input
                 type="text"
-                placeholder={"اسم نفر " + this.showNumber(index)}
+                placeholder={"نفر " + this.showNumber(index)}
                 value={people.name}
                 onChange={this.handleNameChange}
                 id={"si:" + people.id}

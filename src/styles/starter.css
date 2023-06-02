@@ -24,10 +24,20 @@ input{
 }
 .logo{
     margin-top: 20vh;
-    user-select:none;
 }
 
 .logo h1{
-    font-family: titraj;
-    font-size: 36px;
+    font-family: titraj,vazir;
+    font-size: 40px;
+}
+
+.logo h2{
+    font-size: 20px;
+    
+}
+
+.start-tag{
+    position: relative;
+    top:-5px;
+    font-weight: bold;
 }
