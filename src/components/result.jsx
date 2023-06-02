@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import "../styles/results.css";
 
@@ -11,10 +12,10 @@ class Result extends Component {
 
   claculate = () => {
     let result = [];
-    this.props.peoples.map((person) => {
+    this.props.peoples.forEach((person) => {
       let paid = 0;
       let paidForHim = 0;
-      this.props.pays.map((pay) => {
+      this.props.pays.forEach((pay) => {
         if (pay.equal) {
           const money = Number(pay.amount);
           if (pay.ownerId === person.id) paid += money;
@@ -39,7 +40,7 @@ class Result extends Component {
 
   componentDidMount() {
     let errMessage = "";
-    if (!this.props.validateAll())
+    if (!_.isEqual(this.props.errs, {}))
       errMessage = "اطلاعاتی که وارد کردی یه مشکلی داره. دوباره چک کن.";
     else if (this.props.peoples.length < 2)
       errMessage = "برای حساب کردن دنگ حداقل دو نفر لازم داری";

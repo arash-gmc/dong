@@ -102,11 +102,9 @@ class Main extends Component {
       peoples[0].motherPay = true;
     }
     peoples = peoples.filter((person) => person.id !== personId);
-    this.setState({ peoples });
-
     let pays = [...this.state.pays];
     pays = pays.filter((pay) => pay.ownerId !== personId);
-    this.setState({ pays });
+    this.setState({ peoples, pays });
   };
 
   addPay = (ownerId) => {
@@ -213,7 +211,7 @@ class Main extends Component {
     const { pays, peoples } = this.state;
     const errs = validateAll(peoples, pays);
     if (_.isEqual(errs, {})) return true;
-    this.setState({ errs });
+    this.setState({ errs, showResult: true });
     return false;
   };
 
@@ -228,7 +226,7 @@ class Main extends Component {
   }
 
   render() {
-    const { peoples, pays } = this.state;
+    const { peoples, pays, errs } = this.state;
     if (peoples.length === 0) return <Starter mainAddPeople={this.addPeople} />;
 
     if (peoples.length > 0)
@@ -239,12 +237,13 @@ class Main extends Component {
             <div className="col-xl-1 col-sm-2 col-3 position-fixed fixed-right back-button py-md-3">
               <Buttons
                 addPeople={this.addPeople}
-                displayResults={() =>
+                displayResults={() => {
+                  this.validateAllParams();
                   this.setState({
-                    pays: pays.map((p) => (p.show ? { ...p, show: false } : p)),
+                    pays: pays.map((p) => ({ ...p, show: false })),
                     showResult: true,
-                  })
-                }
+                  });
+                }}
                 saveData={() => {
                   saveData({ peoples, pays });
                   this.forceUpdate();
@@ -313,9 +312,9 @@ class Main extends Component {
             <div className="col-xl-3 col-sm-10">
               {this.state.showResult && (
                 <Result
-                  pays={this.state.pays}
-                  peoples={this.state.peoples}
-                  validateAll={this.validateAllParams}
+                  pays={pays}
+                  peoples={peoples}
+                  errs={errs}
                 />
               )}
             </div>
