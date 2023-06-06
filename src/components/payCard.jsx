@@ -73,32 +73,30 @@ class PayCard extends Component {
               </div>
               <div className="validation-error">{errs["pn:" + pay.id]}</div>
 
-              <div className="d-flex mx-1 py-2 justify-content-around">
-                <div className=" my-2 text-nowrap">نوع پرداخت</div>
-                <div className=" my-2">
-                  <span
-                    className={
-                      (pay.equal ? "on " : "off ") + "pay-toggle-left px-3"
-                    }
-                    onClick={() => togglePayType(pay, true)}
-                  >
-                    برابر
-                  </span>
-                  <span
-                    className={
-                      (pay.equal ? "off" : "on") + " pay-toggle-right px-3"
-                    }
-                    onClick={() => togglePayType(pay, false)}
-                  >
-                    نابرابر
-                  </span>
+              <div className=" my-2 text-nowrap">نوع پرداخت</div>
+              <div className="row my-1 mx-sm-4 mx-3 ">
+                <div
+                  className={
+                    (pay.equal ? "on " : "off ") + "pay-toggle-left px-3 col-6"
+                  }
+                  onClick={() => togglePayType(pay, true)}
+                >
+                  برابر
+                </div>
+                <div
+                  className={
+                    (pay.equal ? "off" : "on") + " pay-toggle-right px-3 col-6"
+                  }
+                  onClick={() => togglePayType(pay, false)}
+                >
+                  نابرابر
                 </div>
               </div>
             </div>
 
             {pay.equal && (
               <div>
-                <div className="m-2">
+                <div className="m-2 text-nowrap">
                   <span>هزینه شده برای</span>
                 </div>
 
@@ -151,7 +149,7 @@ class PayCard extends Component {
 
             {!pay.equal && (
               <div>
-                <div className="mb-3">مبلغ هزینه شده برای:</div>
+                <div className="mb-3 text-nowrap">مبلغ هزینه شده برای</div>
 
                 {peoples
                   .filter((person) => person.name)

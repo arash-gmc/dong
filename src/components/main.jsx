@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import PayCard from "./payCard";
 import Result from "./result";
 import "../styles/main.css";
@@ -202,7 +201,7 @@ class Main extends Component {
   validatePay = (payId) => {
     const pay = this.state.pays.find((p) => p.id === payId);
     const errs = validateOnePay(pay);
-    if (_.isEqual(errs, {})) return true;
+    if (Object.keys(errs).length === 0) return true;
     this.setState({ errs });
     return false;
   };
@@ -210,8 +209,8 @@ class Main extends Component {
   validateAllParams = () => {
     const { pays, peoples } = this.state;
     const errs = validateAll(peoples, pays);
-    if (_.isEqual(errs, {})) return true;
-    this.setState({ errs, showResult: true });
+    this.setState({ errs });
+    if (Object.keys(errs).length === 0) return true;
     return false;
   };
 
@@ -245,6 +244,7 @@ class Main extends Component {
                   });
                 }}
                 saveData={() => {
+                  if (!this.validateAllParams()) return;
                   saveData({ peoples, pays });
                   this.forceUpdate();
                 }}

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { Component } from "react";
 import "../styles/results.css";
 
@@ -40,7 +39,7 @@ class Result extends Component {
 
   componentDidMount() {
     let errMessage = "";
-    if (!_.isEqual(this.props.errs, {}))
+    if (Object.keys(this.props.errs).length !== 0)
       errMessage = "اطلاعاتی که وارد کردی یه مشکلی داره. دوباره چک کن.";
     else if (this.props.peoples.length < 2)
       errMessage = "برای حساب کردن دنگ حداقل دو نفر لازم داری";
