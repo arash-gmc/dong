@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PayCard from "./payCard";
 import Result from "./result";
-import "../styles/main.css";
 import Starter from "./starter";
 import Buttons from "./buttons";
 import PeoplesCard from "./PeoplesCard";
@@ -233,7 +232,7 @@ class Main extends Component {
         <div>
           <SiteHeader />
           <div className="row mt-md-5">
-            <div className="col-xl-1 col-sm-2 col-3 position-fixed fixed-right back-button py-md-3">
+            <div className="col-md-2 col-3 col-xl-1 position-fixed fixed-right back-button py-md-3">
               <Buttons
                 addPeople={this.addPeople}
                 displayResults={() => {
@@ -253,11 +252,11 @@ class Main extends Component {
                 showResult={this.state.showResult}
               />
             </div>
-            <div className="col-3 col-sm-2 col-xl-1"></div>
-            <div className="row col-9 col-sm-10 col-xl-8 px-md-2 p-0 me-sm-1">
+            <div className="col-3 col-md-2 col-xl-1"></div>
+            <div className="row col-9 col-md-10 col-xl-8 px-0 px-sm-4 px-md-2 me-sm-1">
               {this.state.peoples.map((person) => (
                 <div
-                  className="col-lg-4 col-sm-6 mb-3"
+                  className="col-lg-4 col-md-6 mb-3"
                   key={person.id}
                 >
                   <PeoplesCard
@@ -308,8 +307,8 @@ class Main extends Component {
                 </div>
               ))}
             </div>
-            <div className="d-none d-sm-block col-2 d-xl-none"></div>
-            <div className="col-xl-3 col-sm-10">
+            <div className="d-none d-sm-block col-3 col-md-2 d-xl-none"></div>
+            <div className="col-xl-3 col-sm-9 col-md-10">
               {this.state.showResult && (
                 <Result
                   pays={pays}

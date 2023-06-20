@@ -1,0 +1,38 @@
+@font-face {
+    font-family: "vazir";
+    src: 
+      url("../fonts/Vazir.woff") format("woff");
+    font-weight: normal;  
+  }
+  
+  @font-face {
+    font-family: "vazir";
+    src: 
+      url("../fonts/Vazir-Bold.woff") format("woff");
+    font-weight: bold;  
+  }
+  
+  
+  @font-face {
+    font-family: "vazir";
+    src:
+      url("../fonts/Vazir-FD-WOL.woff") format("woff");
+    font-weight: normal; 
+  }  
+  
+  
+  @font-face {
+    font-family: "vazir";
+    src:
+      url("../fonts/Vazir-Bold-FD-WOL.woff") format("woff");
+    font-weight: bold; 
+  }
+  
+  @font-face {
+    font-family: "titraj";
+    src:
+      url("../fonts/Titraj.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;  
+     
+  }

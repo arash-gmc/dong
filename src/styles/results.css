@@ -1,35 +1,53 @@
 
 .result-card{
-    color: #2C3333 !important;
-    background-color: #CBE4DE !important;
+    background-color:var(--color1);
+    white-space:normal;
+    line-height: 1.8;
+    padding: 1rem 0;
   }
   
   .result-card p{
     text-align: right;
-    margin-right: 16px;
-    font-size: 14px;
+    margin-right: 8px;
+    margin-bottom: 0;
   }
 
+ 
+
 .result-header{
-    z-index: 500 !important;
-    background-color: #2C3333;
+    background-color: var(--color4);
     color: azure;
     border-radius: 6px;
-    z-index: 5000 !important;
 }
 
-.minus{
-  font-size: 20px !important;
+.minus::before{
+  content: '-';
+  display: inline-block;
+  font-size: 24px;
   color: red;
+  position: relative;
+  top: 4px;
+  margin-left: 6px;
 }
 
-.plus{
-  font-size: 20px !important;
+
+.plus::before{
+  content: '+';
+  display: inline-block;
+  font-size: 24px;
   color: blue;
+  position: relative;
+  top: 4px;
+  margin-left: 6px;
 }
 
-.bullet{
-  font-size: 20px !important;
+.nopay::before{
+  content: '=';
+  display: inline-block;
+  font-size: 24px ;
+  position: relative;
+  top: 4px;
+  margin-left: 4px;
   
 }
 

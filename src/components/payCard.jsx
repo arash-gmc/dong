@@ -24,13 +24,9 @@ class PayCard extends Component {
     } = this.props;
 
     return (
-      <div
-        className={
-          "my-1 position-relative pay-div " + (this.state.hide ? "hide" : "")
-        }
-      >
+      <div className={"pay-card " + (this.state.hide ? "hide" : "")}>
         <div
-          className="window-header p-1 text-right border-ganger"
+          className="pay-header p-1"
           onClick={() => togglePayDisplay(pay.id)}
         >
           <span
@@ -50,31 +46,31 @@ class PayCard extends Component {
           </span>
         </div>
         <span
-          className="position-absolute delete-cross rounded-circle"
+          className="delete-icon"
           onClick={() => deletePay(pay.id)}
         >
           &#10005;
         </span>
-        <div className={"window-body " + (pay.show ? "" : "zero-height")}>
+        <div className={"pay-body " + (pay.show ? "" : "zero-height")}>
           <div className="p-3">
             <div className="mb-2">
               <div>
                 <input
                   type="text"
+                  className="py-2 mt-2 w-75"
                   value={pay.name}
                   id={"pn:" + pay.id}
                   name="payName"
                   onChange={onPayNameChange}
                   placeholder="نام هزینه"
                   maxLength="32"
-                  style={{ width: "86%" }}
                   autoFocus
                 ></input>
               </div>
               <div className="validation-error">{errs["pn:" + pay.id]}</div>
 
               <div className=" my-2 text-nowrap">نوع پرداخت</div>
-              <div className="row my-1 mx-sm-4 mx-3 ">
+              <div className="row my-1 mx-3 ">
                 <div
                   className={
                     (pay.equal ? "on " : "off ") + "pay-toggle-left px-3 col-6"
@@ -100,7 +96,7 @@ class PayCard extends Component {
                   <span>هزینه شده برای</span>
                 </div>
 
-                <div className="row">
+                <div className="row paidFors">
                   {peoples
                     .filter((person) => person.name)
                     .map((person) => (
@@ -149,7 +145,7 @@ class PayCard extends Component {
 
             {!pay.equal && (
               <div>
-                <div className="mb-3 text-nowrap">مبلغ هزینه شده برای</div>
+                <div className="mb-3">مبلغ هزینه شده برای</div>
 
                 {peoples
                   .filter((person) => person.name)

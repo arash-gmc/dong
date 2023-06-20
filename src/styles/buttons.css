@@ -1,12 +1,14 @@
 .back-button{
-    background-color: #2C3333;
+    background-color: var(--color4);
     right: 0;
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
-    
+    max-width: 160px;
 }
 
-
+.add-people-button{
+    background-color: var(--color2) !important;
+}
 
 @media (max-width:768px){
     .back-button{

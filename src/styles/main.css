@@ -1,10 +1,36 @@
+:root{
+  --color1: #CBE4DE;
+  --color2: #0E8388;
+  --color3: #2E4F4F;
+  --color4: #2C3333;
+  --color-error: #ef2c2c;
+  --collor-text: #222;
+}
 
-  .validation-error{
-    color: rgb(239, 44, 44);
+body {
+  color: var(--collor-text) ;
+  padding: 10px;
+  background-color: var(--color3);
+  font-family: vazir,Arial, Helvetica, sans-serif ;
+  user-select: none;
+  white-space: nowrap; 
+  text-align: center;
+}
+
+input{
+  text-align: center;
+  border: none;
+}
+
+.hide{
+  opacity: 0 !important;
+}
+
+.validation-error{
+    color: var(--color-error);
     font-size: 10px;
     height: 8px;
     margin-bottom: 10px;
   }
-
 
   

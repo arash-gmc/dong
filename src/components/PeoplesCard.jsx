@@ -25,7 +25,7 @@ class PeoplesCard extends Component {
         }
       >
         <div
-          className="position-absolute delete-icon rounded-circle"
+          className="delete-icon"
           onClick={() => deletePeople(person.id)}
         >
           &#10005;

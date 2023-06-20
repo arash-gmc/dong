@@ -91,12 +91,12 @@ class Starter extends Component {
     return (
       <div>
         <SiteHeader />
-        <div className="mt-5 p-3 back ">
+        <div className=" p-3 addPeoplePannel ">
           <h5 className="mb-4">اسم بچه های اکیپتون رو بنویس</h5>
           {this.state.peoplesName.map((people, index) => (
             <div
               key={people.id}
-              className="my-2"
+              className="my-2 input-container"
             >
               <input
                 type="text"

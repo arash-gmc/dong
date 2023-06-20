@@ -4,7 +4,7 @@ import "../styles/header.css";
 const SiteHeader = () => {
   return (
     <div>
-      <div className="d-none d-md-block larg-header header">
+      <div className="d-none d-md-block larg-header">
         <img
           src="./logo.webp"
           alt="site logo"

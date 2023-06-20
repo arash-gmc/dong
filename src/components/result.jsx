@@ -81,23 +81,29 @@ class Result extends Component {
                 key={r.id}
               >
                 {motherPay.id !== r.id && r.dong > 0 && (
-                  <p key={r.id}>
-                    <span className="plus">&#x2B;</span>{" "}
+                  <p
+                    key={r.id}
+                    className="plus"
+                  >
                     <strong>{r.name}</strong> باید به {motherPay.name} مبلغ{" "}
-                    {r.dong} هزار تومن بده.
+                    <strong>{r.dong}</strong> هزار تومن بده.
                   </p>
                 )}
                 {motherPay.id !== r.id && r.dong < 0 && (
-                  <p key={r.id}>
-                    <span className="minus">&#8722;</span>{" "}
+                  <p
+                    key={r.id}
+                    className="minus"
+                  >
                     <strong>{r.name}</strong> باید از {motherPay.name} مبلغ{" "}
-                    {-r.dong} هزار تومن بگیره.
+                    <strong>{-r.dong}</strong> هزار تومن بگیره.
                   </p>
                 )}
                 {motherPay.id !== r.id && r.dong === 0 && (
-                  <p key={r.id}>
-                    <span className="bullet"> &#x2022;</span> حساب{" "}
-                    <strong>{r.name}</strong> تسویه هست.
+                  <p
+                    key={r.id}
+                    className="nopay"
+                  >
+                    حساب <strong>{r.name}</strong> تسویه هست.
                   </p>
                 )}
               </div>

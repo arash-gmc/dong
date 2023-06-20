@@ -1,13 +1,11 @@
 .people-card{
-    background-color: #CBE4DE !important;
-    color: #2C3333 !important;
+    background-color: var(--color1);
     padding-top: 12px;
-    height: 200px !important;
-    margin-bottom: 0 !important;
-    transition: all 1s;
+    height: 200px ;
+    margin-bottom: 0;
+    transition: all 1.5s;
     opacity: 0.85;
-    border-radius: 16px !important;
-    user-select: none;
+    border-radius: 16px;
   }
 
   .people-card:hover{
@@ -15,69 +13,51 @@
   }
 
   
-
-  .hide{
-    opacity: 0;
-  }
-  
 .people-card input{
     background: transparent;
     font-size: 18px;
-    text-align: center;
     border-radius: 10px;
-    align-self: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px;
     cursor: pointer;
 }
 
-.people-card input:hover{
-    border: 1px dashed rgb(132, 132, 132);
+.people-card input:hover , .people-card input:focus{
+    border: 1px dashed #777;
     padding-top: 4px;
     padding-bottom: 4px;
 }
 
-.people-card input:focus{
-    border: 1px dashed rgb(132, 132, 132);
-    padding-top: 4px;
-    padding-bottom: 4px;
-}
 
 .error-border{
-    border: 1px dashed rgb(132, 132, 132);
-    border-color: rgb(239, 44, 44) ;
-    padding-top: 3px !important;
-    padding-bottom: 3px !important;
+    border: 1px dashed var(--color-error);
+    padding: 3px !important;
 }
 
 .motherpay-text {
-    margin-top: 4px !important;
+    margin-top: 4px;
     margin-bottom: 13px;
     font-size: 20px;
 }
 
-.delete-icon{
+.people-card .delete-icon{
+    position: absolute;
     left: 6px ;
     top:8px ;
+    border-radius: 13px;
     cursor: pointer;
-    font-size: 16px ;
     border: 2px solid grey;
-    width: 24px;
-    height: 24px;
-    padding: auto;
+    width: 26px;
+    height: 26px;
     color: gray;
-    transition: all 0.4s;
+    transition: all 0.2s;
+    
 }
 
-.delete-icon:hover{
-color: rgb(227, 65, 65);
-border-color:  rgb(227, 65, 65);
+.people-card .delete-icon:hover{
+color: var(--color-error);
+border-color:  var(--color-error);
 }
 
-
-.add-people-button{
-background-color: #0E8388 !important;
-}
 
 .people-card button{
 width: 80%;

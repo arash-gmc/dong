@@ -1,3 +1,6 @@
+.small-header,.larg-header{
+  color: var(--color1)
+}
 
 .larg-header{
     height: 60px;
@@ -6,7 +9,7 @@
 .larg-header h1{
   font-family: titraj;
   margin-bottom: 0;
-  font-size: 32px;
+  font-size: 34px;
 }
 
 .larg-header h2{
@@ -26,16 +29,17 @@
 
 .small-header{
   text-align: right;
+  margin-right: 2vw;
 }
 
 .small-header img{
-  width: 40px;
+  width: 44px;
 }
 
 .small-header h1{
   display: inline-block;
-  margin-right: 1%;
+  margin-right: 1vw;
   font-family: titraj;
-  font-size: 26px;
+  font-size: 28px;
 
 }
