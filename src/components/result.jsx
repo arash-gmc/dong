@@ -59,9 +59,9 @@ class Result extends Component {
     if (number < 1000000)
       return (
         Math.floor(number / 1000) +
-        " میلیون و " +
-        (number % 1000) +
-        " هزار تومن"
+        " میلیون " +
+        (number % 1000 ? "و " + ((number % 1000) + " هزار ") : "") +
+        "تومن"
       );
     return number * 1000 + " تومن";
   }
