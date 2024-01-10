@@ -231,7 +231,7 @@ class Main extends Component {
       return (
         <div>
           <SiteHeader />
-          <div className="row mt-md-5">
+          <div className="row mt-md-5 ms-1">
             <div className="col-md-2 col-3 col-xl-1 position-fixed fixed-right back-button py-md-3">
               <Buttons
                 addPeople={this.addPeople}
