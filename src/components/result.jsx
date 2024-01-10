@@ -52,7 +52,19 @@ class Result extends Component {
     this.setState({ errMessage });
     this.focusDiv.current.focus();
   }
-
+  reshapeMoney(number) {
+    if (number < 0) return null;
+    if (number === 0) return 0;
+    if (number < 1000) return number + " هزار تومن";
+    if (number < 1000000)
+      return (
+        Math.floor(number / 1000) +
+        " میلیون و " +
+        (number % 1000) +
+        " هزار تومن"
+      );
+    return number * 1000 + " تومن";
+  }
   render() {
     const { result, errMessage } = this.state;
     const motherPay = this.props.peoples.find((p) => p.motherPay);
@@ -86,7 +98,7 @@ class Result extends Component {
                     className="plus"
                   >
                     <strong>{r.name}</strong> باید به {motherPay.name} مبلغ{" "}
-                    <strong>{r.dong}</strong> هزار تومن بده.
+                    <strong>{this.reshapeMoney(r.dong)}</strong> بده.
                   </p>
                 )}
                 {motherPay.id !== r.id && r.dong < 0 && (
@@ -95,7 +107,7 @@ class Result extends Component {
                     className="minus"
                   >
                     <strong>{r.name}</strong> باید از {motherPay.name} مبلغ{" "}
-                    <strong>{-r.dong}</strong> هزار تومن بگیره.
+                    <strong>{this.reshapeMoney(-r.dong)}</strong> بگیره.
                   </p>
                 )}
                 {motherPay.id !== r.id && r.dong === 0 && (

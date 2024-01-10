@@ -136,8 +136,8 @@ class PayCard extends Component {
                     placeholder="0"
                     className="w-25 me-3"
                     maxLength="10"
-                  ></input>
-                  <span className="hezar">هزار تومان</span>
+                  />
+                  <span className="hezar">&#10005; هزار تومان</span>
                 </div>
                 <div className="validation-error">{errs["pa:" + pay.id]}</div>
               </div>
@@ -165,7 +165,7 @@ class PayCard extends Component {
                         maxLength="8"
                         className="col-3"
                       />
-                      <span className="col-4 hezar">هزار تومان</span>
+                      <span className="col-4 hezar">&#10005;هزار تومان</span>
                     </div>
                   ))}
                 <div className="validation-error">{errs["pq:" + pay.id]}</div>
