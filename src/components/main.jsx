@@ -19,7 +19,10 @@ class Main extends Component {
     pays: [],
     errs: {},
     showResult: false,
+    isButtonScrolling: true,
   };
+
+  endRef = React.createRef();
 
   resetAll = () => {
     this.setState({
@@ -213,13 +216,36 @@ class Main extends Component {
     return false;
   };
 
+  handleScroll() {
+    const { bottom } = this.endRef.current.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    if (bottom < windowHeight * 0.5 && this.state.isButtonScrolling) {
+      this.setState({ isButtonScrolling: false });
+    }
+    if (bottom > windowHeight * 0.5 && !this.state.isButtonScrolling) {
+      this.setState({ isButtonScrolling: true });
+    }
+  }
+
   componentDidMount() {
     if (loadData()) this.setState(loadData());
+    this.handleScroll = this.handleScroll.bind(this);
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.showResult) {
-      this.setState({ showResult: false });
+    if (
+      prevState.showResult &&
+      prevState.isButtonScrolling === this.state.isButtonScrolling
+    ) {
+      this.setState({
+        showResult: false,
+      });
     }
   }
 
@@ -231,91 +257,96 @@ class Main extends Component {
       return (
         <div>
           <SiteHeader />
-          <div className="row mt-md-5 ms-1">
-            <div className="col-md-2 col-3 col-xl-1 position-fixed fixed-right back-button py-md-3">
-              <Buttons
-                addPeople={this.addPeople}
-                displayResults={() => {
-                  this.validateAllParams();
-                  this.setState({
-                    pays: pays.map((p) => ({ ...p, show: false })),
-                    showResult: true,
-                  });
-                }}
-                saveData={() => {
-                  if (!this.validateAllParams()) return;
-                  saveData({ peoples, pays });
-                  this.forceUpdate();
-                }}
-                resetAll={this.resetAll}
-                isStored={() => isStored(peoples, pays)}
-                showResult={this.state.showResult}
-              />
-            </div>
-            <div className="col-3 col-md-2 col-xl-1"></div>
-            <div className="row col-9 col-md-10 col-xl-8 px-0 px-sm-4 px-md-2 me-sm-1">
-              {this.state.peoples.map((person) => (
+
+          <div className="row mx-0">
+            <div className="row mt-md-5 col-xl-9 ps-0">
+              <div className="col-3 col-md-2 col-xl-1 position-relative">
                 <div
-                  className="col-lg-4 col-md-6 mb-3"
-                  key={person.id}
+                  className={
+                    "back-button ps-3 py-md-3 px-2 " +
+                    (this.state.isButtonScrolling ? "fixed-pos" : "abs-pos")
+                  }
                 >
-                  <PeoplesCard
-                    errs={this.state.errs}
-                    person={person}
-                    handlePeopleNameChange={this.handlePeopleNameChange}
-                    deletePeople={this.deletePeople}
-                    setMotherPay={(personId) =>
+                  <Buttons
+                    addPeople={this.addPeople}
+                    displayResults={() => {
+                      this.validateAllParams();
                       this.setState({
-                        peoples: peoples.map((p) =>
-                          p.id === personId
-                            ? { ...p, motherPay: true }
-                            : { ...p, motherPay: false }
-                        ),
-                      })
-                    }
-                    addPay={this.addPay}
+                        pays: pays.map((p) => ({ ...p, show: false })),
+                        showResult: true,
+                      });
+                    }}
+                    saveData={() => {
+                      if (!this.validateAllParams()) return;
+                      saveData({ peoples, pays });
+                      this.forceUpdate();
+                    }}
+                    resetAll={this.resetAll}
+                    isStored={() => isStored(peoples, pays)}
+                    showResult={this.state.showResult}
                   />
-                  <div className="mx-1 mx-lg-0">
-                    {this.state.pays
-                      .filter((p) => p.ownerId === person.id)
-                      .map((pay) => (
-                        <PayCard
-                          pay={pay}
-                          key={pay.id}
-                          onPayNameChange={this.handlePayNameChange}
-                          onPayAmountChange={this.handlePayAmountChange}
-                          peoples={this.state.peoples}
-                          togglePaidFor={this.togglePaidFor}
-                          errs={this.state.errs}
-                          togglePayDisplay={this.togglePayDisplay}
-                          togglePayType={(pay, eq) =>
-                            this.setState({
-                              pays: pays.map((p) =>
-                                p.id === pay.id ? { ...pay, equal: eq } : p
-                              ),
-                            })
-                          }
-                          deletePay={(payId) =>
-                            this.setState({
-                              pays: pays.filter((p) => p.id !== payId),
-                            })
-                          }
-                          handleUnequalPayPrice={this.handleUnequalPayPrice}
-                        />
-                      ))}
-                  </div>
                 </div>
-              ))}
+              </div>
+              <div className="row col-9 col-md-10 col-xl-11 px-0 px-sm-4 px-md-2 me-sm-1">
+                {this.state.peoples.map((person) => (
+                  <div className="col-lg-4 col-md-6 mb-3" key={person.id}>
+                    <PeoplesCard
+                      errs={this.state.errs}
+                      person={person}
+                      handlePeopleNameChange={this.handlePeopleNameChange}
+                      deletePeople={this.deletePeople}
+                      setMotherPay={(personId) =>
+                        this.setState({
+                          peoples: peoples.map((p) =>
+                            p.id === personId
+                              ? { ...p, motherPay: true }
+                              : { ...p, motherPay: false }
+                          ),
+                        })
+                      }
+                      addPay={this.addPay}
+                    />
+                    <div className="mx-1 mx-lg-0">
+                      {this.state.pays
+                        .filter((p) => p.ownerId === person.id)
+                        .map((pay) => (
+                          <PayCard
+                            pay={pay}
+                            key={pay.id}
+                            onPayNameChange={this.handlePayNameChange}
+                            onPayAmountChange={this.handlePayAmountChange}
+                            peoples={this.state.peoples}
+                            togglePaidFor={this.togglePaidFor}
+                            errs={this.state.errs}
+                            togglePayDisplay={this.togglePayDisplay}
+                            togglePayType={(pay, eq) =>
+                              this.setState({
+                                pays: pays.map((p) =>
+                                  p.id === pay.id ? { ...pay, equal: eq } : p
+                                ),
+                              })
+                            }
+                            deletePay={(payId) =>
+                              this.setState({
+                                pays: pays.filter((p) => p.id !== payId),
+                              })
+                            }
+                            handleUnequalPayPrice={this.handleUnequalPayPrice}
+                          />
+                        ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div ref={this.endRef}></div>
             </div>
-            <div className="d-none d-sm-block col-3 col-md-2 d-xl-none"></div>
-            <div className="col-xl-3 col-sm-9 col-md-10">
-              {this.state.showResult && (
-                <Result
-                  pays={pays}
-                  peoples={peoples}
-                  errs={errs}
-                />
-              )}
+            <div className="col-xl-3 row">
+              <div className="d-md-block col-2 d-xl-none"></div>
+              <div className="col-12 col-md-10 col-xl-12">
+                {this.state.showResult && (
+                  <Result pays={pays} peoples={peoples} errs={errs} />
+                )}
+              </div>
             </div>
           </div>
         </div>

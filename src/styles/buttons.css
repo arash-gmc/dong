@@ -2,12 +2,37 @@
     background-color: var(--color4);
     right: 0;
     border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-    max-width: 160px;
+    border-top-left-radius: 10px;    
 }
 
 .add-people-button{
     background-color: var(--color2) !important;
+}
+
+.fixed-pos{
+    position: fixed;
+    width: 25%;
+    
+}
+
+@media (min-width:768px){
+    .fixed-pos{
+        width: 17%
+    }
+}
+
+@media (min-width:1200px){
+    .fixed-pos{
+        width: 7%;
+    }
+}
+
+
+
+.abs-pos{
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
 }
 
 @media (max-width:768px){

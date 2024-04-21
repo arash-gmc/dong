@@ -69,7 +69,7 @@ class Result extends Component {
     const { result, errMessage } = this.state;
     const motherPay = this.props.peoples.find((p) => p.motherPay);
     return (
-      <div className="mx-auto m-1 mt-2 result-div">
+      <div className="m-1 mt-2 result-div">
         <div className="result-header p-1">
           <h3>نتیجه</h3>
         </div>
@@ -77,53 +77,35 @@ class Result extends Component {
         {errMessage && (
           <div className="card result-card mx-2 text-danger pt-2">
             <p>{errMessage}</p>
-            <div
-              ref={this.focusDiv}
-              tabIndex="0"
-            ></div>
+            <div ref={this.focusDiv} tabIndex="0"></div>
           </div>
         )}
 
         {!errMessage && (
-          <div className="card result-card mx-2 pt-2">
+          <div className="card result-card pt-2 mx-md-2 mx-xl-0 ">
             <p>دنگ همه حساب شد و نتیجه اینه:</p>
             {result.map((r) => (
-              <div
-                className="me-2"
-                key={r.id}
-              >
+              <div className="me-2" key={r.id}>
                 {motherPay.id !== r.id && r.dong > 0 && (
-                  <p
-                    key={r.id}
-                    className="plus"
-                  >
+                  <p key={r.id} className="plus">
                     <strong>{r.name}</strong> باید به {motherPay.name} مبلغ{" "}
                     <strong>{this.reshapeMoney(r.dong)}</strong> بده.
                   </p>
                 )}
                 {motherPay.id !== r.id && r.dong < 0 && (
-                  <p
-                    key={r.id}
-                    className="minus"
-                  >
+                  <p key={r.id} className="minus">
                     <strong>{r.name}</strong> باید از {motherPay.name} مبلغ{" "}
                     <strong>{this.reshapeMoney(-r.dong)}</strong> بگیره.
                   </p>
                 )}
                 {motherPay.id !== r.id && r.dong === 0 && (
-                  <p
-                    key={r.id}
-                    className="nopay"
-                  >
+                  <p key={r.id} className="nopay">
                     حساب <strong>{r.name}</strong> تسویه هست.
                   </p>
                 )}
               </div>
             ))}
-            <div
-              ref={this.focusDiv}
-              tabIndex="0"
-            ></div>
+            <div ref={this.focusDiv} tabIndex="0"></div>
           </div>
         )}
       </div>
