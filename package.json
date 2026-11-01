@@ -2,7 +2,7 @@
   "name": "dang-dong-ding",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://arash-gmc.github.io/dong",
+  "homepage": "https://www.dongonline.ir",
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "@testing-library/jest-dom": "^5.16.5",

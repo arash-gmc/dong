@@ -1,9 +1,10 @@
-const CACHE_NAME = "version3";
+const CACHE_NAME = "version4";
 const cache_array = [];
 const fetchFirstList = ["/static/js/bundle.js"];
 
 this.addEventListener("install", (event) => {
   //console.log("installing");
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(cache_array);
@@ -12,8 +13,10 @@ this.addEventListener("install", (event) => {
 });
 
 this.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
-  if (fetchFirstList.includes(url.pathname)) {
+  // index.html (navigations) must be network-first, otherwise users never get new builds
+  if (event.request.mode === "navigate" || fetchFirstList.includes(url.pathname)) {
     fetchFirst(event);
   } else {
     cacheFirst(event);
@@ -30,7 +33,7 @@ this.addEventListener("activate", (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -40,7 +43,7 @@ function fetchFirst(event) {
       return fetch(event.request)
         .then((response) => {
           if (response) {
-            cache.put(event.request, response.clone());
+            if (response.ok) cache.put(event.request, response.clone());
             //console.log("---from network", event.request.url);
             return response;
           }
@@ -65,7 +68,7 @@ const cacheFirst = (event) => {
         //console.log("---from network", event.request.url);
         return fetch(event.request)
           .then((response) => {
-            cache.put(event.request, response.clone());
+            if (response.ok) cache.put(event.request, response.clone());
             return response;
           })
           .catch((err) => {
