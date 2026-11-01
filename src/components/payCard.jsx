@@ -22,11 +22,12 @@ class PayCard extends Component {
       togglePayType,
       handleUnequalPayPrice,
     } = this.props;
+    const word = pay.isTakeing ? "دریافت" : "پرداخت";
 
     return (
       <div className={"pay-card " + (this.state.hide ? "hide" : "")}>
         <div
-          className="pay-header p-1"
+          className={"pay-header p-1 " + (pay.isTakeing ? "payment" : "")}
           onClick={() => togglePayDisplay(pay.id)}
         >
           <span
@@ -62,14 +63,14 @@ class PayCard extends Component {
                   id={"pn:" + pay.id}
                   name="payName"
                   onChange={onPayNameChange}
-                  placeholder="نام هزینه"
+                  placeholder={"نام " + word}
                   maxLength="32"
                   autoFocus
                 ></input>
               </div>
               <div className="validation-error">{errs["pn:" + pay.id]}</div>
 
-              <div className=" my-2 text-nowrap">نوع پرداخت</div>
+              <div className=" my-2 text-nowrap">نوع {word}</div>
               <div className="row my-1 mx-3 ">
                 <div
                   className={
@@ -93,7 +94,9 @@ class PayCard extends Component {
             {pay.equal && (
               <div>
                 <div className="m-2 text-nowrap">
-                  <span>هزینه شده برای</span>
+                  {/* <span>{word} شده برای</span> */}
+                  {!pay.isTakeing && <span>پرداخت شده برای</span>}
+                  {pay.isTakeing && <span>دریافت شده از</span>}
                 </div>
 
                 <div className="row paidFors">
@@ -145,7 +148,7 @@ class PayCard extends Component {
 
             {!pay.equal && (
               <div>
-                <div className="mb-3">مبلغ هزینه شده برای</div>
+                <div className="mb-3">مبلغ {word} شده برای</div>
 
                 {peoples
                   .filter((person) => person.name)

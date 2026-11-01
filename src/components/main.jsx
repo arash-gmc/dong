@@ -108,11 +108,12 @@ class Main extends Component {
     this.setState({ peoples, pays });
   };
 
-  addPay = (ownerId) => {
+  addPay = (ownerId, isTakeing = false) => {
     if (!this.validateAllParams()) return;
     const newPay = {
       id: Date.now() + "",
       ownerId,
+      isTakeing,
       name: "",
       amount: "",
       equal: true,

@@ -54,23 +54,32 @@ class PeoplesCard extends Component {
         {person.motherPay || (
           <div>
             <button
-              className="btn btn-success"
+              className="btn btn-success w-50"
               id={"m" + person.id}
               onClick={() => setMotherPay(person.id)}
-              style={{ fontSize: "14px" }}
+              // style={{ fontSize: "14px" }}
             >
-              تعیین به عنوان مادرخرج
+              انتخاب مادرخرج
             </button>
           </div>
         )}
 
         <div className="position-relative">
+          <div className="d-flex justify-between">
+
           <button
             className="btn btn-primary peoples-button"
-            onClick={() => addPay(person.id)}
+            onClick={() => addPay(person.id, false)}
           >
-            اضافه کردن هزینه
+           + پرداخت
           </button>
+          <button
+            className="btn btn-primary peoples-button"
+            onClick={() => addPay(person.id, true)}
+          >
+           + دریافت
+          </button>
+          </div>
         </div>
       </div>
     );

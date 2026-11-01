@@ -15,14 +15,16 @@ class Result extends Component {
       let paid = 0;
       let paidForHim = 0;
       this.props.pays.forEach((pay) => {
+        // دریافت مثل پرداخت حساب می‌شه، فقط با علامت مخالف
+        const sign = pay.isTakeing ? -1 : 1;
         if (pay.equal) {
-          const money = Number(pay.amount);
+          const money = Number(pay.amount) * sign;
           if (pay.ownerId === person.id) paid += money;
           if (pay.paidFor.includes(person.id))
             paidForHim += money / pay.paidFor.length;
         } else {
           pay.unequalPays.forEach((ueqp) => {
-            const money = Number(ueqp.money);
+            const money = Number(ueqp.money) * sign;
             if (money && pay.ownerId === person.id) paid += money;
             if (money && ueqp.id === person.id) paidForHim += money;
           });
@@ -45,7 +47,7 @@ class Result extends Component {
       errMessage = "برای حساب کردن دنگ حداقل دو نفر لازم داری";
     else if (this.props.pays.length < 1)
       errMessage =
-        "اول از طریق گزینه ی «اضافه کردن هزینه» برای شخص مورد نظر یه هزینه تعریف کن.";
+        "اول از طریق گزینه ی «اضافه کردن پرداخت» یا «اضافه کردن دریافت» برای شخص مورد نظر یه مورد تعریف کن.";
     else if (!this.props.peoples.find((p) => p.motherPay))
       errMessage = "مادرخرج انتخاب نشده.";
     else this.claculate();
